@@ -14,5 +14,11 @@ import org.springframework.data.domain.Pageable;
 public interface BookService {
     Page<BookDTO> findAllByBookStatus(Pageable pageable, BookStatus bookStatus);
 
+<<<<<<< Updated upstream
     Page<BookDTO> findAllByBookStatusAndTitle(Pageable pageable, BookStatus bookStatus, String title);
+=======
+    Page<BookDTO> getTopByBookStatus(Pageable pageable, BookStatus bookStatus);
+
+    Page<BookDTO> getAllByBookStatusAndSortByReviews(Pageable pageable, BookStatus bookStatus);
+>>>>>>> Stashed changes
 }

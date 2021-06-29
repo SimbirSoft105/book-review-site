@@ -38,4 +38,9 @@ public class BookServiceImpl implements BookService {
     public Page<BookDTO> findAllByBookStatusAndTitle(Pageable pageable, BookStatus bookStatus, String title) {
         return bookRepository.findAllByBookStatusAndTitleContainingIgnoreCase(pageable, bookStatus, title).map(book -> modelMapper.map(book, BookDTO.class));
     }
+
+    @Override
+    public Page<BookDTO> getAllByBookStatusAndSortByReviews(Pageable pageable, BookStatus bookStatus) {
+        return bookRepository.findAllByBookStatusWithSortByReview(pageable, bookStatus).map(book -> modelMapper.map(book, BookDTO.class));
+    }
 }

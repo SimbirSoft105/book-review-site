@@ -33,7 +33,7 @@ public class AllBooksController {
 
     @GetMapping("/allBooks")
     public String getAllBooksPage(@PageableDefault(size = 7, sort = { "id" }, direction = Sort.Direction.DESC) Pageable pageable, Model model) {
-        Page<BookDTO> books = bookService.findAllByBookStatus(pageable, BookStatus.PUBLIC);
+        Page<BookDTO> books = bookService.getAllByBookStatus(pageable, BookStatus.PUBLIC);
 
         model.addAttribute("title", "All Films");
         model.addAttribute("books", books);
@@ -42,12 +42,21 @@ public class AllBooksController {
 
     @GetMapping("/rest/allBooks")
     @ResponseBody
+<<<<<<< Updated upstream
     public ResponseEntity<Page<BookDTO>> getAllBooks(@PageableDefault(size = 7, sort = { "id" }, direction = Sort.Direction.DESC) Pageable pageable, String title) {
+=======
+    @GetMapping("/rest/all")
+    public ResponseEntity<Page<BookDTO>> getAllBooks(String title, Boolean sortByReviews,
+            @PageableDefault(size = 7, sort = { "id" }, direction = Sort.Direction.DESC) Pageable pageable) {
+
+>>>>>>> Stashed changes
         Page<BookDTO> books;
-        if (title == null) {
-            books = bookService.findAllByBookStatus(pageable, BookStatus.PUBLIC);
+        if (title == null && (sortByReviews == null || !sortByReviews)) {
+            books = bookService.getAllByBookStatus(pageable, BookStatus.PUBLIC);
+        } else if (sortByReviews == null || !sortByReviews) {
+            books = bookService.getAllByBookStatusAndTitle(pageable, BookStatus.PUBLIC, title);
         } else {
-            books = bookService.findAllByBookStatusAndTitle(pageable, BookStatus.PUBLIC, title);
+            books = bookService.getAllByBookStatusAndSortByReviews(pageable, BookStatus.PUBLIC);
         }
 
         if (books == null || books.getContent().size() == 0) {

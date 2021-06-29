@@ -115,29 +115,27 @@
             <div class="all__films-films" id="all__films-films">
                 <#assign count = 1>
                 <#if books?? && books.content??>
-                    <#list books.content as books>
+                    <#list books.content as book>
                         <div class="films__item">
                             <div class="films__number">
                                 <span class="films__count">${count}</span>
                             </div>
                             <a href="#" class="film__photo">
-                                <img src="/images/allFilms/friend.webp" alt="" class="allfilm__img">
-                                <span class="films__img-rating rateItem" title="${books.rate}">${books.rate}</span>
+                                <img src="${book.cover}" alt="" class="allfilm__img">
+                                <span class="films__img-rating rateItem" title="${book.rate}">${book.rate}</span>
                             </a>
                             <div class="film__info-filter">
                                 <a href="#" class="film__info-left">
                                     <p class="film__info-name">
-                                        ${books.title}
+                                        ${book.title}
                                     </p>
                                     <p class="film__info-date">
-                                        ${books.title}, ${books.releaseYear}
+                                        ${book.title}, ${book.releaseYear}
                                     </p>
                                     <p class="film__info-metaInfo">
-                                        <span class="film__info-country">${books.country}</span>
+                                        <span class="film__info-country">${book.country.name}</span>
                                         <span class="film__info-genre">
-                                    <#list books.categories as categories>
-                                        ${categories.title}
-                                    </#list>
+                                    <#list book.categories as category>${category.title}<#sep>, </#list>
                                 </span>
                                     </p>
                                 </a>
@@ -147,7 +145,10 @@
                         <#assign count++>
                     </#list>
                 </#if>
-                <button type="button" id="more_btn">Показать еще</button>
+                <div id="more_btn" class="block_floating-button">
+                    <button type="button" class="floating-button">Показать еще
+                    </button>
+                </div>
                 <input id="count" value="${count}" type="hidden">
             </div>
         </div>

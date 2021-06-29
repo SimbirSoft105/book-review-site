@@ -13,7 +13,12 @@ import java.util.Set;
 @Builder
 @Data
 @Entity
+<<<<<<< Updated upstream
 @EqualsAndHashCode(exclude = {"pushedBy", "categories"})
+=======
+@EqualsAndHashCode(exclude = {"pushedBy", "categories", "country", "language", "reviews"})
+@ToString(exclude = {"pushedBy", "categories", "country", "language", "reviews"})
+>>>>>>> Stashed changes
 public class Book {
 
     @Id
