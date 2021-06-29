@@ -1,4 +1,4 @@
-package com.simbirsoft.practice.bookreviewsite.utils;
+package com.simbirsoft.practice.bookreviewsite.util;
 
 import freemarker.template.Configuration;
 import freemarker.template.Template;

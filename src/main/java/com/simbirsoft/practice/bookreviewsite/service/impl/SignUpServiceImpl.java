@@ -8,7 +8,7 @@ import com.simbirsoft.practice.bookreviewsite.dto.SignUpForm;
 import com.simbirsoft.practice.bookreviewsite.repository.UsersRepository;
 import com.simbirsoft.practice.bookreviewsite.service.api.EmailSendingService;
 import com.simbirsoft.practice.bookreviewsite.service.api.SignUpService;
-import com.simbirsoft.practice.bookreviewsite.utils.ConfirmMailGenerator;
+import com.simbirsoft.practice.bookreviewsite.util.ConfirmMailGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
