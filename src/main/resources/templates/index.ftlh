@@ -1,6 +1,6 @@
 <#import "base.ftlh" as base>
 
-<@base.main>
+<@base.main [] "Главная страница">
     <#if firstBook??>
         <section class="popular">
             <div class="popular__inner">
@@ -48,17 +48,10 @@
     <section class="new__movies">
         <div class="new__movies-inner">
             <div class="new__movies-header">
-                <h2 class="new__movies-title">DISCOVER NEW MOVIES</h2>
+                <h2 class="new__movies-title">ОТКРОЙТЕ НОВЫЕ ФИЛЬМЫ</h2>
                 <p class="new__movies-subtitle">Время найти новинки для твоего кинотеатра</p>
             </div>
             <div class="new__movies-body">
-                <#--                <div class="new__movies-filter">-->
-                <#--                    <a href="#" class="movies__filter-item filter-active">Recent</a>-->
-                <#--                    <a href="#" class="movies__filter-item">Most popular</a>-->
-                <#--                    <a href="#" class="movies__filter-item">Best</a>-->
-                <#--                    <a href="#" class="movies__filter-item">Coming soon</a>-->
-                <#--                </div>-->
-
                 <#if freshBooks?? && freshBooks.content??>
                     <div class="new__movies-movies">
                         <#list freshBooks.content as freshBook>
@@ -78,7 +71,7 @@
                     </div>
                 </#if>
                 <div class="view__more-block">
-                    <a href="/book/all" class="view__more-btn">View more films</a>
+                    <a href="/book/all" class="view__more-btn">Больше книг</a>
                 </div>
             </div>
         </div>
@@ -90,7 +83,7 @@
                 <img src="/images/header/logo.png" alt="" class="footer__logo-img">
             </div>
             <div class="footer__copyright">
-                © 2021. All rights reserved.
+                © 2021. Все права защищены.
             </div>
         </div>
     </footer>

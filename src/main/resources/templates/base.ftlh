@@ -300,10 +300,10 @@
                 </svg>
             </button>
             <ul class="nav">
-                <li class="nav__link"><a href="/" class="nav__link-item">Home</a></li>
-                <li class="nav__link"><a href="/book/all" class="nav__link-item">All films</a></li>
-                <li class="nav__link"><a href="/about" class="nav__link-item">About</a></li>
-                <li class="nav__link"><a href="/contact" class="nav__link-item">Contact</a></li>
+                <li class="nav__link"><a href="/" class="nav__link-item">Домашняя</a></li>
+                <li class="nav__link"><a href="/book/all" class="nav__link-item">Все книги</a></li>
+                <li class="nav__link"><a href="/about" class="nav__link-item">О нас</a></li>
+                <li class="nav__link"><a href="/contact" class="nav__link-item">Контакты</a></li>
             </ul>
         </div>
 

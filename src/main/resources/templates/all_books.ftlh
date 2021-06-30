@@ -4,11 +4,11 @@
     <section class="contact--title">
         <div class="contact__bg--allFilm"></div>
         <div class="contact--title-inner">
-            <div class="contact__inner-title">All Books</div>
+            <div class="contact__inner-title">Все книги</div>
             <div class="contact__inner-subtitle">
-                <a href="#">Home</a>
+                <a href="#">Домашняя</a>
                 <div class="contact__line">/</div>
-                <div>All Books</div>
+                <div>Все книги</div>
             </div>
         </div>
     </section>
@@ -85,7 +85,7 @@
                 <img src="/images/header/logo.png" alt="" class="footer__logo-img">
             </div>
             <div class="footer__copyright">
-                © 2021. All rights reserved.
+                © 2021. Все права защищены.
             </div>
         </div>
     </footer>

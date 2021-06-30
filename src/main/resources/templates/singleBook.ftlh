@@ -1,6 +1,6 @@
 <#import "base.ftlh" as base>
 
-<@base.main>
+<@base.main [] "${book.title}">
     <section class="singleFilm">
         <div class="singleFilm__inner">
             <div class="singleFilm__item">
@@ -197,7 +197,7 @@
                 <img src="/images/header/logo.png" alt="" class="footer__logo-img">
             </div>
             <div class="footer__copyright">
-                © 2021. All rights reserved.
+                © 2021. Все права защищены.
             </div>
         </div>
     </footer>

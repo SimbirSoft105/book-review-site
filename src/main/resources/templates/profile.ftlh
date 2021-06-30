@@ -1,6 +1,6 @@
 <#import "base.ftlh" as base>
 
-<@base.main>
+<@base.main [] "Профиль">
     <section class="profile">
         <div class="profile__inner">
             <div class="profile__header">
@@ -50,7 +50,7 @@
                 <img src="/images/header/logo.png" alt="" class="footer__logo-img">
             </div>
             <div class="footer__copyright">
-                © 2021. All rights reserved.
+                © 2021. Все права защищены.
             </div>
         </div>
     </footer>

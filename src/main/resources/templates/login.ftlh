@@ -1,6 +1,6 @@
 <#import "base.ftlh" as base>
 
-<@base.main>
+<@base.main [] "Вход">
     <section class="auth">
         <div class="auth__bg"></div>
         <div class="auth__inner">
