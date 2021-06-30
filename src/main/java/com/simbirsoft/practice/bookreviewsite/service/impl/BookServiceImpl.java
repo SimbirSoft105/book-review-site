@@ -62,10 +62,8 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public Page<BookDTO> getAllByBookStatus(Pageable pageable, BookStatus bookStatus) {
-        Page<BookDTO> books = bookRepository.findAllByBookStatus(pageable, bookStatus)
+        return bookRepository.findAllByBookStatus(pageable, bookStatus)
                 .map(book -> modelMapper.map(book, BookDTO.class));
-        System.out.println(books.getContent().toString());
-        return books;
     }
 
     @Override

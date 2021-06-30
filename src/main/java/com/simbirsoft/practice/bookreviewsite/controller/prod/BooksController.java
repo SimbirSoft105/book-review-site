@@ -62,7 +62,6 @@ public class BooksController {
         Page<BookDTO> books = bookService.getAllByBookStatus(pageable, BookStatus.PUBLIC);
 
         model.addAttribute("books", books);
-        System.out.println(books.getContent().toString());
 
         return "all_books";
     }
