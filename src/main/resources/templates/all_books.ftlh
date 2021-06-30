@@ -120,15 +120,15 @@
                             <div class="films__number">
                                 <span class="films__count">${count}</span>
                             </div>
-                            <a href="/book/${books.id}" class="film__photo">
+                            <a href="/book/${book.id}" class="film__photo">
                                 <img
-                                        <#if books.cover??>
-                                            src="${books.cover}"
+                                        <#if book.cover??>
+                                            src="${book.cover}"
                                         <#else>
                                             src="/images/no_cover.ico"
                                         </#if> alt="" class="allfilm__img">
 
-                                <span class="films__img-rating rateItem" title="${books.rate}">${books.rate}</span>
+                                <span class="films__img-rating rateItem" title="${book.rate}">${book.rate}</span>
                             </a>
                             <div class="film__info-filter">
                                 <a href="/book/${book.id}" class="film__info-left">

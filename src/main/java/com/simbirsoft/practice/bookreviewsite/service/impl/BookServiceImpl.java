@@ -6,6 +6,7 @@ import com.simbirsoft.practice.bookreviewsite.dto.AddBookForm;
 import com.simbirsoft.practice.bookreviewsite.dto.BookDTO;
 import com.simbirsoft.practice.bookreviewsite.dto.CategoryDTO;
 import com.simbirsoft.practice.bookreviewsite.entity.Book;
+import com.simbirsoft.practice.bookreviewsite.entity.Review;
 import com.simbirsoft.practice.bookreviewsite.entity.User;
 import com.simbirsoft.practice.bookreviewsite.enums.BookStatus;
 import com.simbirsoft.practice.bookreviewsite.exception.ResourceNotFoundException;
