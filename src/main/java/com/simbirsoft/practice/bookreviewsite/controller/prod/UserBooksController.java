@@ -44,6 +44,18 @@ public class UserBooksController {
         return "user_books";
     }
 
+    @GetMapping("/favorites")
+    public String favoritesBook(@AuthenticationPrincipal CustomUserDetails userDetails,
+                                @PageableDefault(size = 7, sort = { "id" }, direction = Sort.Direction.DESC) Pageable pageable,
+                                Model model) {
+
+        Page<BookDTO> books = bookService.getUserFavoriteBooks(pageable, userDetails.getUser().getId());
+
+        model.addAttribute("books", books);
+
+        return "favorites_books";
+    }
+
     @ResponseBody
     @GetMapping("/rest/user/{id}")
     public ResponseEntity<Page<BookDTO>> getUserBooks(@PathVariable Long id,
@@ -51,9 +63,15 @@ public class UserBooksController {
 
         Page<BookDTO> books = bookService.getAllUserBooks(pageable, id);
 
-        if (books == null || books.getContent().size() == 0) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
+        return ResponseEntity.ok(books);
+    }
+
+    @ResponseBody
+    @GetMapping("/rest/favorites/{id}")
+    public ResponseEntity<Page<BookDTO>> getUserFavoritesBooks(@PathVariable Long id,
+                    @PageableDefault(size = 7, sort = { "id" }, direction = Sort.Direction.DESC) Pageable pageable) {
+
+        Page<BookDTO> books = bookService.getUserFavoriteBooks(pageable, id);
 
         return ResponseEntity.ok(books);
     }
@@ -63,5 +81,14 @@ public class UserBooksController {
         bookService.deleteUserBook(id, userDetails.getUser().getId());
 
         return "redirect:/book/my";
+    }
+
+    @PostMapping("/favorites/delete/{id}")
+    public String deleteFavoritesUserBook(@AuthenticationPrincipal CustomUserDetails userDetails,
+                                          @PathVariable Long id) {
+
+        bookService.deleteUserFavoriteBook(id, userDetails.getUser().getId());
+
+        return "redirect:/book/favorites";
     }
 }

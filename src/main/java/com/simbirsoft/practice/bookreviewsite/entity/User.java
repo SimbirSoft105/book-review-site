@@ -1,5 +1,6 @@
 package com.simbirsoft.practice.bookreviewsite.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.simbirsoft.practice.bookreviewsite.enums.Role;
 import com.simbirsoft.practice.bookreviewsite.enums.UserStatus;
 import lombok.AllArgsConstructor;
@@ -32,7 +33,9 @@ public class User implements Serializable {
     private String email;
 
     private String hashedPassword;
+
     private String avatar;
+
     private String confirmCode;
 
     @Enumerated(EnumType.STRING)
@@ -43,10 +46,16 @@ public class User implements Serializable {
     private UserStatus userStatus;
 
     @Transient
+    @JsonIgnore
     @OneToMany(mappedBy = "pushedBy", fetch = FetchType.EAGER)
     private Set<Book> books;
 
     @Transient
+    @JsonIgnore
     @OneToMany(mappedBy = "author", fetch = FetchType.EAGER)
     private Set<Review> reviews;
+
+    @JsonIgnore
+    @ManyToMany(mappedBy = "likedUsers", fetch = FetchType.EAGER)
+    private Set<Book> favoriteBooks;
 }

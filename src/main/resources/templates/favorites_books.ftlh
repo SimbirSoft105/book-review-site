@@ -1,11 +1,11 @@
 <#import "base.ftlh" as base>
 
-<@base.main>
+<@base.main [] "Избранное">
     <section class="profile">
         <div class="profile__inner">
             <div class="profile__header">
-                <h2 class="profile__title">Ваши книги</h2>
-                <p class="profile__header-desc">Здесь вы можете просматривать ваши книги</p>
+                <h2 class="profile__title">Избранное</h2>
+                <p class="profile__header-desc">Здесь вы можете просматривать ваши избранные книги</p>
             </div>
 
             <div class="all__films-films">
@@ -34,7 +34,7 @@
                                         <#list book.categories as category>${category.title}<#sep>, </#list>
                                     </span>
                                 </p>
-                                <form action="/book/delete/${book.id}" method="post" class="prof__films-delete">
+                                <form action="/book/favorites/delete/${book.id}" method="post" class="prof__films-delete">
                                     <button type="submit" class="btn__delete-films">Удалить книгу</button>
                                 </form>
                             </a>
@@ -72,7 +72,7 @@
 
                 loadMore = false;
 
-                loadMoreBooks('/book/rest/user/${user.id}?page=' + currentPage + '&size=7&sort=id,desc', parent)
+                loadMoreBooks('/book/rest/favorites/${user.id}?page=' + currentPage + '&size=7&sort=id,desc', parent)
                     .then(haveMore => {
                         loadMore = haveMore;
                         paintRate(rateItems);

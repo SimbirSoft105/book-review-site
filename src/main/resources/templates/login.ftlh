@@ -22,4 +22,3 @@
         </div>
     </section>
 </@base.main>
-<script src="assets/js/app.js"></script>

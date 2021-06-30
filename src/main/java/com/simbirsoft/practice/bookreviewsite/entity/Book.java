@@ -16,8 +16,8 @@ import java.util.Set;
 @Builder
 @Data
 @Entity
-@EqualsAndHashCode(exclude = {"pushedBy", "categories", "country", "language"})
-@ToString(exclude = {"pushedBy", "categories", "country", "language"})
+@EqualsAndHashCode(exclude = {"pushedBy", "categories", "country", "language", "likedUsers"})
+@ToString(exclude = {"pushedBy", "categories", "country", "language", "likedUsers"})
 public class Book {
 
     @Id
@@ -70,4 +70,10 @@ public class Book {
     @OneToMany(mappedBy = "book", fetch = FetchType.EAGER)
     private Set<Review> reviews;
 
+    @JsonIgnore
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "favorite_book",
+            joinColumns = @JoinColumn(name = "book_id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id"))
+    private Set<User> likedUsers;
 }

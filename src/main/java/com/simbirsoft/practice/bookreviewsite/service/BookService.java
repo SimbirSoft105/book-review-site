@@ -37,5 +37,9 @@ public interface BookService {
 
     BookDTO getById(Long id);
 
+    Page<BookDTO> getUserFavoriteBooks(Pageable pageable, Long userId);
+
+    boolean deleteUserFavoriteBook(Long bookId, Long userId);
+
 //    float recalculateBookRate(ReviewAdditionDTO reviewAdditionDTO, Long bookId);
 }

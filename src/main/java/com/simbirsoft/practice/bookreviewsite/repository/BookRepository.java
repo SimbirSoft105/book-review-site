@@ -1,6 +1,7 @@
 package com.simbirsoft.practice.bookreviewsite.repository;
 
 import com.simbirsoft.practice.bookreviewsite.entity.Book;
+import com.simbirsoft.practice.bookreviewsite.entity.User;
 import com.simbirsoft.practice.bookreviewsite.enums.BookStatus;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -29,6 +30,8 @@ public interface BookRepository extends JpaRepository<Book, Long> {
     Page<Book> findAllByPushedById(Pageable pageable, Long userId);
 
     Optional<Book> findFirstByBookStatusOrderById(BookStatus bookStatus);
+
+    Page<Book> findAllByLikedUsersIsContaining(Pageable pageable, User user);
 
     @Transactional
     @Query("update Book book set book.rate = :rate where book.id = :id")

@@ -47,12 +47,12 @@ function getBookHtml(book, counter) {
                 <div class="films__number">
                     <span class="films__count">${counter}</span>
                 </div>
-                <a href="#" class="film__photo">
+                <a href="/book/${book.id}" class="film__photo">
                     <img src="${book.cover}" alt="" class="allfilm__img">
                     <span class="films__img-rating" title="${book.rate}">${book.rate}</span>
                 </a>
                 <div class="film__info-filter">
-                    <a href="#" class="film__info-left">
+                    <a href="/book/${book.id}" class="film__info-left">
                         <p class="film__info-name">
                             ${book.title}
                         </p>

@@ -5,9 +5,7 @@ import com.cloudinary.utils.ObjectUtils;
 import com.simbirsoft.practice.bookreviewsite.dto.AddBookForm;
 import com.simbirsoft.practice.bookreviewsite.dto.BookDTO;
 import com.simbirsoft.practice.bookreviewsite.dto.CategoryDTO;
-import com.simbirsoft.practice.bookreviewsite.dto.ReviewAdditionDTO;
 import com.simbirsoft.practice.bookreviewsite.entity.Book;
-import com.simbirsoft.practice.bookreviewsite.entity.Review;
 import com.simbirsoft.practice.bookreviewsite.entity.User;
 import com.simbirsoft.practice.bookreviewsite.enums.BookStatus;
 import com.simbirsoft.practice.bookreviewsite.exception.ResourceNotFoundException;
@@ -20,14 +18,9 @@ import org.apache.commons.io.FileUtils;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.server.ResponseStatusException;
-import sun.misc.FloatingDecimal;
 
 import java.io.File;
 import java.io.IOException;
@@ -155,6 +148,24 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
+    public boolean deleteUserFavoriteBook(Long bookId, Long userId) {
+        Optional<Book> optionalBook = bookRepository.findById(bookId);
+        Optional<User> optionalUser = usersRepository.findById(userId);
+
+        if (optionalBook.isPresent() &&  optionalUser.isPresent()) {
+            Book book = optionalBook.get();
+            User user = optionalUser.get();
+
+            user.getFavoriteBooks().remove(book);
+            book.getLikedUsers().remove(user);
+
+            return true;
+        }
+
+        return false;
+    }
+
+    @Override
     public BookDTO getFirstByBookStatus(BookStatus bookStatus) {
         return modelMapper.map(bookRepository.findFirstByBookStatusOrderById(bookStatus).orElseThrow(IllegalArgumentException::new), BookDTO.class);
     }
@@ -171,6 +182,16 @@ public class BookServiceImpl implements BookService {
                 new ResourceNotFoundException("Book not found"));
 
         return modelMapper.map(book, BookDTO.class);
+    }
+
+    @Override
+    public Page<BookDTO> getUserFavoriteBooks(Pageable pageable, Long userId) {
+
+        User user = usersRepository.findById(userId)
+                .orElseThrow(() -> new UserNotFoundException("User not found"));
+
+        return bookRepository.findAllByLikedUsersIsContaining(pageable, user)
+                .map(book -> modelMapper.map(book, BookDTO.class));
     }
 
 //    @Override
