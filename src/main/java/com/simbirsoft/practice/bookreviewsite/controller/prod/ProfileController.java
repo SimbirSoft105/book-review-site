@@ -55,9 +55,12 @@ public class ProfileController {
     }
     
     @GetMapping("edit")
-    public String getEditProfilePage(Model model) {
+    public String getEditProfilePage(@AuthenticationPrincipal CustomUserDetails userDetails, Model model) {
         model.addAttribute("title", "Изменение профиля");
-        model.addAttribute("editForm", new ProfileEditForm());
+
+        ProfileEditForm form = modelMapper.map(userDetails.getUser(), ProfileEditForm.class);
+        model.addAttribute("editForm", form);
+
         return "redactProfile";
     }
 

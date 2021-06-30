@@ -2,28 +2,29 @@
 <#import "base.ftlh" as base>
 
 <@base.main [] "Редактирование профиля">
-    <section class="profile">
-        <div class="profile__inner">
+    <section class="add_book">
+        <div class="add_book__inner">
+            <div class="profile__header">
+                <h2 class="profile__title">Редактирование профиля</h2>
+                <p class="profile__header-desc">Здесь вы можете отредактировать ваш профиль</p>
+            </div>
             <@spring.bind "editForm"/>
-            <form class="profile__body" method="post" enctype="multipart/form-data">
+            <form class="add_book__body" method="post" enctype="multipart/form-data">
                 <div class="profile__photo">
-                    <img id="image" src="/images/profile/user-no-big.gif" alt="" class="profile__img">
                     <input type="file" name="avatar" onchange="onFileSelected(event)" placeholder="Выбрать фото" class="redact__photo">
                 </div>
-                <ul class="profile__info profile__info-group--change">
-                    <li class="profile__info-group">
-                        <label class="profile__info-label">
+                <ul class="add_book__info add_book__info-group--change">
+                    <li class="add_book__info-group">
+                        <label class="add_book__info-label">
                             Полное имя:
-<#--                            <input type="text" name="name" class="profile__info-field">-->
-                            <@spring.formInput path="editForm.name" attributes="class='profile__info-field'"/>
+                            <@spring.formInput path="editForm.name" attributes="class='add_book__info-field'"/>
                             <@spring.showErrors separator="<br>" classOrStyle="error"/>
                         </label>
                     </li>
-                    <li class="profile__info-group">
-                        <label class="profile__info-label">
+                    <li class="add_book__info-group">
+                        <label class="add_book__info-label">
                             Email:
-<#--                            <input type="text" name="email" class="profile__info-field">-->
-                            <@spring.formInput path="editForm.email" attributes="class='profile__info-field'" fieldType="email"/>
+                            <@spring.formInput path="editForm.email" attributes="class='add_book__info-field'" fieldType="email"/>
                             <@spring.showErrors separator="<br>" classOrStyle="error"/>
                         </label>
                     </li>

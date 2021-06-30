@@ -46,7 +46,7 @@ public class UsersServiceImpl implements UsersService {
         String newAvatar = userDTO.getAvatar();
 
         MultipartFile avatarFile = profileEditForm.getAvatar();
-        if (avatarFile != null) {
+        if (!avatarFile.isEmpty()) {
 
             String currentAvatar = userDTO.getAvatar();
             if (currentAvatar != null) {
