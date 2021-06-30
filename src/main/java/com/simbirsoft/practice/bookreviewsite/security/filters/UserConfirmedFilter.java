@@ -26,7 +26,8 @@ public class UserConfirmedFilter extends OncePerRequestFilter {
         Set<String> authorities = AuthorityUtils.authorityListToSet(authentication.getAuthorities());
 
         if (!authorities.contains("CONFIRMED")) {
-            httpServletResponse.sendRedirect(httpServletRequest.getContextPath() + "/signUp/pls_confirm_email");
+            httpServletResponse.sendRedirect(httpServletRequest.getContextPath() +
+                    "/signUp/registration_confirm_email");
         }
 
         filterChain.doFilter(httpServletRequest, httpServletResponse);

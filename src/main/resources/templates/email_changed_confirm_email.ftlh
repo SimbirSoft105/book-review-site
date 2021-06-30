@@ -197,7 +197,7 @@
 </svg>
 
 
-<section class="login__section confirm__section">
+<section class="login__section">
     <header class="login__header">
         <div class="logo__login">
             <h2 class="logo__header__text">Trello</h2>
@@ -206,15 +206,13 @@
     <div class="login__content">
         <form class="login__form">
             <div class="login__form--title">
-                <span class="confirm__title">Почта успешно потдверждена!</span>
+                <span class="confirm__title">Кажется, вы указали новый адрес электронной почты.</span>
 
-                <#if user??>
-                    <a href="/" class="confirm__btn">На главную</a>
-                <#else>
-                    <p class="confirm__text">Теперь вы можете войти в свой аккаунт</p>
-                    <a href="/login" class="confirm__btn">Войти</a>
-                </#if>
-
+                <p class="confirm__text">Чтобы пользоваться нашим сайтом, Вам необходимо
+                    подтвердить, что введенный адрес электоронный почты принадлежит Вам.</p>
+                <p class="confirm__text">Для этого Вам нужно перейти по ссылке в письме, которое мы отправили на указанную Вами
+                    электронную почту</p>
+                <a href="/" class="confirm__link">На главную</a>
             </div>
         </form>
     </div>

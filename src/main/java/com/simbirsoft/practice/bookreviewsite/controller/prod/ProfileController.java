@@ -2,11 +2,13 @@ package com.simbirsoft.practice.bookreviewsite.controller.prod;
 
 import com.simbirsoft.practice.bookreviewsite.dto.ProfileEditForm;
 import com.simbirsoft.practice.bookreviewsite.dto.UserDTO;
+import com.simbirsoft.practice.bookreviewsite.enums.UserStatus;
 import com.simbirsoft.practice.bookreviewsite.security.details.CustomUserDetails;
 import com.simbirsoft.practice.bookreviewsite.service.BookService;
 import com.simbirsoft.practice.bookreviewsite.service.ReviewsService;
+import com.simbirsoft.practice.bookreviewsite.service.SignUpService;
 import com.simbirsoft.practice.bookreviewsite.service.UsersService;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.modelmapper.ModelMapper;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,19 +19,26 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.validation.Valid;
+import java.io.IOException;
 
 @Controller
 @RequestMapping("profile")
 public class ProfileController {
 
-    @Autowired
-    private UsersService usersService;
+    private final UsersService usersService;
+    private final BookService bookService;
+    private final ReviewsService reviewsService;
+    private final ModelMapper modelMapper;
+    private final SignUpService signUpService;
 
-    @Autowired
-    private BookService bookService;
-
-    @Autowired
-    private ReviewsService reviewsService;
+    public ProfileController(UsersService usersService, BookService bookService,
+                             ReviewsService reviewsService, ModelMapper modelMapper, SignUpService signUpService) {
+        this.usersService = usersService;
+        this.bookService = bookService;
+        this.reviewsService = reviewsService;
+        this.modelMapper = modelMapper;
+        this.signUpService = signUpService;
+    }
 
     @GetMapping
     public String getProfilePage(@AuthenticationPrincipal CustomUserDetails userDetails,
@@ -55,7 +64,7 @@ public class ProfileController {
     public String editProfile(@Valid @ModelAttribute ProfileEditForm editForm,
                               BindingResult bindingResult,
                               Model model,
-                              @AuthenticationPrincipal CustomUserDetails userDetails) {
+                              @AuthenticationPrincipal CustomUserDetails userDetails) throws IOException {
 
         if (bindingResult.hasErrors()) {
             model.addAttribute("title", "Изменение профиля");
@@ -63,12 +72,15 @@ public class ProfileController {
             return "redactProfile";
         }
         else {
-            UserDTO userDTO = usersService.getById(userDetails.getUser().getId());
-
-            //Не беру юзера из UserDetails, потому что он не со свежими данными.
-            //Нужен свежий аватар для удаления старой аватарки из облака по public_id
-            usersService.editProfile(editForm, userDTO);
-            return "redirect:/profile";
+            UserDTO userDTO = modelMapper.map(userDetails.getUser(), UserDTO.class);
+            UserDTO refreshedUserDTO = usersService.editProfile(editForm, userDTO);
+            if (refreshedUserDTO.getUserStatus().equals(UserStatus.CONFIRMED)) {
+                return "redirect:/profile";
+            }
+            else {
+                signUpService.sendConfirmEmailToUser(refreshedUserDTO);
+                return "redirect:/signUp/profileEditConfirmEmail";
+            }
         }
     }
 

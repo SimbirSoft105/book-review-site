@@ -15,7 +15,7 @@
                         <label class="profile__info-label">
                             Полное имя:
 <#--                            <input type="text" name="name" class="profile__info-field">-->
-                            <@spring.formInput path="editForm.name"/>
+                            <@spring.formInput path="editForm.name" attributes="class='profile__info-field'"/>
                             <@spring.showErrors separator="<br>" classOrStyle="error"/>
                         </label>
                     </li>
@@ -23,7 +23,7 @@
                         <label class="profile__info-label">
                             Email:
 <#--                            <input type="text" name="email" class="profile__info-field">-->
-                            <@spring.formInput path="editForm.email" fieldType="email"/>
+                            <@spring.formInput path="editForm.email" attributes="class='profile__info-field'" fieldType="email"/>
                             <@spring.showErrors separator="<br>" classOrStyle="error"/>
                         </label>
                     </li>

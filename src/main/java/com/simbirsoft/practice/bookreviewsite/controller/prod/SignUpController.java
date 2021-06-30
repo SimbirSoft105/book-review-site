@@ -1,6 +1,7 @@
 package com.simbirsoft.practice.bookreviewsite.controller.prod;
 
 import com.simbirsoft.practice.bookreviewsite.dto.SignUpForm;
+import com.simbirsoft.practice.bookreviewsite.dto.UserDTO;
 import com.simbirsoft.practice.bookreviewsite.enums.Role;
 import com.simbirsoft.practice.bookreviewsite.exception.UserNotFoundException;
 import com.simbirsoft.practice.bookreviewsite.security.details.CustomUserDetails;
@@ -47,26 +48,22 @@ public class SignUpController {
             return "signUp";
         }
         else {
-            signUpService.signUpWithRole(signUpForm, Role.USER);
-            return "redirect:/signUp/pls_confirm_email";
+            UserDTO userDTO = signUpService.prodSignUpWithRole(signUpForm, Role.USER);
+            signUpService.sendConfirmEmailToUser(userDTO);
+            return "redirect:/signUp/registration_confirm_email";
         }
     }
 
-    @GetMapping("pls_confirm_email")
+    @GetMapping("registration_confirm_email")
     public String getEmailConfirmationPage() {
         return "confirm_email";
     }
 
     @GetMapping("confirm_email/{confirm_code}")
-    public String confirmEmail(@PathVariable("confirm_code") String confirmCode,
-                               Model model,
-                               @AuthenticationPrincipal CustomUserDetails userDetails) throws UserNotFoundException {
+    public String confirmEmail(@PathVariable("confirm_code") String confirmCode)
+            throws UserNotFoundException {
 
         signUpService.confirmUserByConfirmCode(confirmCode);
-
-        if (userDetails != null) {
-            model.addAttribute("authenticated", true);
-        }
         return "email_confirmed";
     }
 

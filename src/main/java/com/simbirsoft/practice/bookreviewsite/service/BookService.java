@@ -17,6 +17,7 @@ import java.util.List;
  */
 
 public interface BookService {
+
     Page<BookDTO> getAllByBookStatus(Pageable pageable, BookStatus bookStatus);
 
     Page<BookDTO> getAllByBookStatusAndTitle(Pageable pageable, BookStatus bookStatus, String title);

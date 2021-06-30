@@ -5,13 +5,13 @@ import com.cloudinary.utils.ObjectUtils;
 import com.simbirsoft.practice.bookreviewsite.dto.ProfileEditForm;
 import com.simbirsoft.practice.bookreviewsite.dto.UserDTO;
 import com.simbirsoft.practice.bookreviewsite.entity.User;
+import com.simbirsoft.practice.bookreviewsite.enums.UserStatus;
 import com.simbirsoft.practice.bookreviewsite.repository.UsersRepository;
 import com.simbirsoft.practice.bookreviewsite.security.details.CustomUserDetails;
 import com.simbirsoft.practice.bookreviewsite.service.UsersService;
 import com.simbirsoft.practice.bookreviewsite.util.AuthRefreshUtil;
 import org.apache.commons.io.FileUtils;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -21,28 +21,30 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Map;
 import java.util.Objects;
+import java.util.UUID;
 
 @Service
 public class UsersServiceImpl implements UsersService {
 
-    @Autowired
-    private UsersRepository usersRepository;
+    private final UsersRepository usersRepository;
+    private final ModelMapper modelMapper;
+    private final Cloudinary cloudinary;
 
-    @Autowired
-    private ModelMapper modelMapper;
-
-    @Autowired
-    private Cloudinary cloudinary;
+    public UsersServiceImpl(UsersRepository usersRepository, ModelMapper modelMapper, Cloudinary cloudinary) {
+        this.usersRepository = usersRepository;
+        this.modelMapper = modelMapper;
+        this.cloudinary = cloudinary;
+    }
 
     @Override
-    public void editProfile(ProfileEditForm profileEditForm, UserDTO userDTO) {
+    public UserDTO editProfile(ProfileEditForm profileEditForm, UserDTO userDTO) throws IOException {
 
         String newName = profileEditForm.getName();
         String newEmail = profileEditForm.getEmail();
         String newAvatar;
 
         MultipartFile avatarFile = profileEditForm.getAvatar();
-        if (avatarFile != null) {
+        if (!avatarFile.getOriginalFilename().equals("")) {
 
             String currentAvatar = userDTO.getAvatar();
             if (currentAvatar != null) {
@@ -76,7 +78,16 @@ public class UsersServiceImpl implements UsersService {
         user.setName(newName);
         user.setEmail(newEmail);
 
+        if (!userDTO.getEmail().equals(newEmail)) {
+            user.setUserStatus(UserStatus.NOT_CONFIRMED);
+            user.setConfirmCode(UUID.randomUUID().toString());
+            usersRepository.makeUserNotConfirmed(user.getConfirmCode(),
+                    user.getUserStatus());
+            System.out.println("new confirmCode: " + user.getConfirmCode());
+        }
         AuthRefreshUtil.refreshAuthentication(authentication);
+
+        return modelMapper.map(user, UserDTO.class);
     }
 
     @Override
