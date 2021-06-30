@@ -1471,6 +1471,7 @@ html, body {
   cursor: pointer; }
 
 .comment__likes button {
+  cursor: pointer;
   background: 0;
   border: 0;
   outline: 0;

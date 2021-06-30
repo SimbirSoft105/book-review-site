@@ -37,5 +37,5 @@ public interface BookService {
 
     BookDTO getById(Long id);
 
-//    float recalculateBookRate(ReviewAdditionDTO reviewAdditionDTO, Long bookId);
+    float recalculateBookRate(Long bookId);
 }

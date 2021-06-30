@@ -5,7 +5,6 @@ import com.cloudinary.utils.ObjectUtils;
 import com.simbirsoft.practice.bookreviewsite.dto.AddBookForm;
 import com.simbirsoft.practice.bookreviewsite.dto.BookDTO;
 import com.simbirsoft.practice.bookreviewsite.dto.CategoryDTO;
-import com.simbirsoft.practice.bookreviewsite.dto.ReviewAdditionDTO;
 import com.simbirsoft.practice.bookreviewsite.entity.Book;
 import com.simbirsoft.practice.bookreviewsite.entity.Review;
 import com.simbirsoft.practice.bookreviewsite.entity.User;
@@ -14,20 +13,17 @@ import com.simbirsoft.practice.bookreviewsite.exception.ResourceNotFoundExceptio
 import com.simbirsoft.practice.bookreviewsite.exception.UserNotFoundException;
 import com.simbirsoft.practice.bookreviewsite.repository.BookRepository;
 import com.simbirsoft.practice.bookreviewsite.repository.CategoryRepository;
+import com.simbirsoft.practice.bookreviewsite.repository.ReviewsRepository;
 import com.simbirsoft.practice.bookreviewsite.repository.UsersRepository;
 import com.simbirsoft.practice.bookreviewsite.service.BookService;
+import com.simbirsoft.practice.bookreviewsite.service.ReviewsService;
 import org.apache.commons.io.FileUtils;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.server.ResponseStatusException;
-import sun.misc.FloatingDecimal;
 
 import java.io.File;
 import java.io.IOException;
@@ -53,15 +49,19 @@ public class BookServiceImpl implements BookService {
 
     private final Cloudinary cloudinary;
 
+    private final ReviewsRepository reviewsRepository;
+
     @Autowired
     public BookServiceImpl(BookRepository bookRepository, CategoryRepository categoryRepository,
-                           ModelMapper modelMapper, Cloudinary cloudinary, UsersRepository usersRepository) {
+                           ModelMapper modelMapper, Cloudinary cloudinary,
+                           UsersRepository usersRepository, ReviewsRepository reviewsRepository) {
 
         this.bookRepository = bookRepository;
         this.categoryRepository = categoryRepository;
         this.modelMapper = modelMapper;
         this.cloudinary = cloudinary;
         this.usersRepository = usersRepository;
+        this.reviewsRepository = reviewsRepository;
     }
 
     @Override
@@ -173,22 +173,20 @@ public class BookServiceImpl implements BookService {
         return modelMapper.map(book, BookDTO.class);
     }
 
-//    @Override
-//    public float recalculateBookRate(ReviewAdditionDTO reviewAdditionDTO, Long bookId) {
-//
-//        Book book = bookRepository.getById(bookId);
-//
-//        Set<Review> reviews = book.getReviews();
-//        int sum = 0;
-//        for (Review review: reviews) {
-//            sum += review.getMark();
-//        }
-//        int rate = sum / reviews.size();
-//        System.out.println("rate: " + rate);
-//        book.setRate(rate);
-//        bookRepository.save(book);
-//
-//        return rate;
-//    }
+    @Override
+    public float recalculateBookRate(Long bookId) {
+
+        List<Review> reviews = reviewsRepository.getAllByBookId(bookId);
+
+        float sum = 0;
+        for (Review review: reviews) {
+            sum += review.getMark();
+        }
+        float rate = sum / reviews.size();
+
+        bookRepository.recalculateBookRate(rate, bookId);
+
+        return rate;
+    }
 
 }

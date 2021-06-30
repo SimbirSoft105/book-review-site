@@ -13,7 +13,7 @@
                     <h2 class="film__name">${book.title}</h2>
                     <ul class="film__list-desc">
                         <li class=" film__desc-item film__rating-field">
-                            <span id="rating" class="film__field">Рейтинг:</span> <span class="rating__count">${book.rate}</span>
+                            <span id="rating" class="film__field">Рейтинг:</span> <span id="rating-value" class="rating__count"></span>
                         </li>
                         <li class=" film__desc-item film__rating-field">
                             <span class="film__field">Автор:</span> <span class="rating__count">${book.author}</span>
@@ -35,7 +35,7 @@
                             <span>${book.country.name}</span></li>
                     </ul>
                     <form action="" method="post" class="add_film">
-                        <button type="button">Добавить в любимые</button>
+                        <button type="button">Добавить в избранное</button>
                     </form>
                     <!--                <div class="add__love">Добвавлено в любимое</div>-->
                 </article>
@@ -142,7 +142,7 @@
                 </div>
                 <div class="comment__items">
                     <#list reviews.content as review>
-                        <div class="comment__item">
+                        <div id="review#${review.id}" class="comment__item">
                             <div class="comment__desc">
                                 <div class="comment__avatar">
                                     <a href="#" class="comment__avatar-img">
@@ -158,10 +158,12 @@
                                     <header class="comment__header">
                                         <div class="comment__name">${review.author.name}</div>
                                     </header>
-
                                     <p class="comment__text">
                                         ${review.text}
                                     </p>
+                                    <div style="display: flex; flex-direction: row; margin-top: 10px; color: #e0041d">
+                                        Оценка: ${review.mark}/10
+                                    </div>
                                 </div>
                                 <div class="comment__likes">
                                     <button type="button">+</button>
@@ -170,7 +172,9 @@
                                 </div>
                             </div>
                             <div class="comment__footer">
-                                <a href="#" class="answer__btn">Ответить</a>
+                                <#if review.author.id == user.id>
+                                    <a onclick="deleteReview(${review.id})" href="#" class="answer__btn">Удалить</a>
+                                </#if>
                                 <div class="comment__date">${review.createdAt}</div>
                             </div>
                         </div>
@@ -197,11 +201,12 @@
     <!-- Скрипт для отправки рецензии-->
     <script>
 
+        document.getElementById("rating-value").innerText = `${book.rate}`.substr(0, 3)
         let nextPageNumber = 1
         const reviewsBlock = document.querySelector(".comment__items")
         const btnSend = document.getElementById("send-review")
         const blockScore = document.querySelector('.comment__star')
-        const seeMoreBtn = document.createElement("div")
+        const reviewsCountVal = document.querySelector('.singleMovie__comments-count')
 
         btnSend.addEventListener('click', async function (e) {
 
@@ -227,7 +232,11 @@
             if (response.ok) {
 
                 let result = await response.json()
-                console.log(result)
+                let createdAt = result.createdAt
+                let id = result.id
+                let newRate = result.rate
+
+                document.getElementById('rating-value').innerText = newRate.toFixed(1)
 
                 let avatar
                 <#if user??>
@@ -240,10 +249,9 @@
                 <#if user??>
                     let name = `${user.name}`
                 </#if>
-                let createdAt = result.createdAt
 
                 let newReview = document.createElement('div')
-                newReview.innerHTML = `<div class="comment__item">
+                newReview.innerHTML = `<div id="review#` + id + `" class="comment__item">
                             <div class="comment__desc">
                                 <div class="comment__avatar">
                                     <a href="#" class="comment__avatar-img">
@@ -254,10 +262,12 @@
                                     <header class="comment__header">
                                         <div class="comment__name">` + name + `</div>
                                     </header>
-
                                     <p class="comment__text">`
                                         + text + `
                                     </p>
+                                    <div style="display: flex; flex-direction: row; margin-top: 10px; color: #e0041d">
+                                        Оценка: ` + body.mark + `/10
+                                    </div>
                                 </div>
                                 <div class="comment__likes">
                                     <button type="button">+</button>
@@ -266,7 +276,7 @@
                                 </div>
                             </div>
                             <div class="comment__footer">
-                                <a href="#" class="answer__btn">Ответить</a>
+                                    <a onclick="deleteReview(` + id + `)" href="#" class="answer__btn">Удалить</a>
                                 <div class="comment__date">` + createdAt + `</div>
                             </div>
                         </div>`
@@ -290,7 +300,7 @@
                 reviewsBlock.insertBefore(newReview, reviewsBlock.firstChild)
 
                 document.getElementById("rating").innerText = 'Рейтинг: ' + result.rate
-                document.querySelector('.singleMovie__comments-count').innerText = reviewsCount + 1
+                reviewsCountVal.innerText = Number(reviewsCountVal.innerText) + 1
             }
         })
     </script>
@@ -363,12 +373,13 @@
                     } else avatar = '/images/no_avatar.jpg'
                     let name = content[i].author.name
                     let text = content[i].text
+                    let id = content[i].id
                     let rate = content[i].rate
+                    let mark = content[i].mark
                     let createdAt = content[i].createdAt
 
                     let review = document.createElement('div')
-                    review.className = 'comment__item'
-                    review.innerHTML = `
+                    review.innerHTML = `<div id="review#` + id + `" class="comment__item">
                             <div class="comment__desc">
                                 <div class="comment__avatar">
                                     <a href="#" class="comment__avatar-img">
@@ -379,10 +390,12 @@
                                     <header class="comment__header">
                                         <div class="comment__name">` + name + `</div>
                                     </header>
-
                                     <p class="comment__text">`
                         + text + `
                                     </p>
+                                    <div style="display: flex; flex-direction: row; margin-top: 10px; color: #e0041d">
+                                        Оценка: ` + mark + `/10
+                                    </div>
                                 </div>
                                 <div class="comment__likes">
                                     <button type="button">+</button>
@@ -391,9 +404,10 @@
                                 </div>
                             </div>
                             <div class="comment__footer">
-                                <a href="#" class="answer__btn">Ответить</a>
+                                <a onclick="deleteReview(` + id + `)" href="#" class="answer__btn">Удалить</a>
                                 <div class="comment__date">` + createdAt + `</div>
-                            </div>`
+                            </div>
+                        </div>`
 
                     reviewsBlock.appendChild(review)
                 }
@@ -403,6 +417,84 @@
                     let seeMoreBtn = document.createElement("div")
                     seeMoreBtn.innerHTML = `<button onclick="showMore()" id="see-more-btn" type="button" class="btn__comment">Посмотреть еще</button>`
                     reviewsBlock.appendChild(seeMoreBtn)
+                }
+            }
+        }
+
+        async function deleteReview(id) {
+
+            let response = await fetch('/reviews/' + id + '/delete',
+                {
+                    method: 'DELETE'
+                }
+            )
+            if (response.ok) {
+                document.getElementById("review#" + id).remove()
+                reviewsCountVal.innerText = Number(reviewsCountVal.innerText) - 1
+                let newRate = await response.json();
+                console.log('newRate: ' + newRate)
+                document.getElementById('rating-value').innerText = newRate.toFixed(1)
+            }
+
+            let seeMoreBtn = document.getElementById("see-more-btn")
+            if (seeMoreBtn != null) {
+
+                let currentPage = nextPageNumber - 1
+                console.log('current page: ' + currentPage)
+                response = await fetch('/book/${book.id}/ajax/?page=' + currentPage)
+                if (response.ok) {
+
+                    let result = await response.json()
+                    let reviews = result.content
+                    let lastReview = reviews[4]
+
+                    let name = lastReview.author.name
+                    let text = lastReview.text
+                    let id = lastReview.id
+                    let avatar = lastReview.author.avatar
+                    let rate = lastReview.rate
+                    let mark = lastReview.mark
+                    let createdAt = lastReview.createdAt
+
+                    let reviewToPast = document.createElement('div')
+                    reviewToPast.innerHTML = `<div id="review#` + id + `" class="comment__item">
+                            <div class="comment__desc">
+                                <div class="comment__avatar">
+                                    <a href="#" class="comment__avatar-img">
+                                        <img src="` + avatar + `" alt=""/>
+                                    </a>
+                                </div>
+                                <div class="comment__info">
+                                    <header class="comment__header">
+                                        <div class="comment__name">` + name + `</div>
+                                    </header>
+                                    <p class="comment__text">`
+                        + text + `
+                                    </p>
+                                    <div style="display: flex; flex-direction: row; margin-top: 10px; color: #e0041d">
+                                        Оценка: ` + mark + `/10
+                                    </div>
+                                </div>
+                                <div class="comment__likes">
+                                    <button type="button">+</button>
+                                    <span class="comment__likes-count">` + rate + `</span>
+                                    <button type="button">-</button>
+                                </div>
+                            </div>
+                            <div class="comment__footer">
+                                <a onclick="deleteReview(` + id + `)" href="#" class="answer__btn">Удалить</a>
+                                <div class="comment__date">` + createdAt + `</div>
+                            </div>
+                        </div>`
+
+                    if (result.last) {
+                        console.log('last: ' + result.last)
+                        seeMoreBtn.remove()
+                        reviewsBlock.appendChild(reviewToPast)
+                    }
+                    else {
+                        reviewsBlock.insertBefore(reviews, seeMoreBtn)
+                    }
                 }
             }
         }

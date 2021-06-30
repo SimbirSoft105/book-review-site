@@ -49,4 +49,5 @@ public class User implements Serializable {
     @Transient
     @OneToMany(mappedBy = "author", fetch = FetchType.EAGER)
     private Set<Review> reviews;
+
 }

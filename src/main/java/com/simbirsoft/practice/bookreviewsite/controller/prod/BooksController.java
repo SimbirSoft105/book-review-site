@@ -16,7 +16,6 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -118,10 +117,6 @@ public class BooksController {
                                       sort = "createdAt",
                                       direction = Sort.Direction.DESC) Pageable pageable) {
 
-        if (userDetails != null) {
-            model.addAttribute("user", userDetails.getUser());
-        }
-
         BookDTO book = bookService.getById(bookId);
         Page<ReviewDTO> reviews = reviewsService.getAllByBookId(bookId, pageable);
 
@@ -148,12 +143,7 @@ public class BooksController {
             @AuthenticationPrincipal CustomUserDetails userDetails,
             @PathVariable("bookId") Long bookId) {
 
-        UserDTO userDTO = modelMapper.map(userDetails.getUser(), UserDTO.class);
-
-        LocalDateTime createdAt = reviewsService.addReview(reviewAdditionDTO, userDTO, bookId);
-//        float rate = bookService.recalculateBookRate(reviewAdditionDTO, bookId);
-
-        ReviewAdditionReturnDTO returnDTO = new ReviewAdditionReturnDTO(createdAt, 0);
-        return ResponseEntity.ok(returnDTO);
+        return ResponseEntity.ok(reviewsService.addReview(reviewAdditionDTO,
+                userDetails.getUser(), bookId));
     }
 }

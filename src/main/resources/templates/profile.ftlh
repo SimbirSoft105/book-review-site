@@ -28,10 +28,12 @@
             </div>
 
             <div class="profile__stat">
-                <div class="profile__stat-item">
-                    <div class="profile__stat-count">${booksPushedCount}</div>
-                    <div class="profile__stat-name">Загружено книг</div>
-                </div>
+                <a href="/book/my">
+                    <div class="profile__stat-item">
+                        <div class="profile__stat-count">${booksPushedCount}</div>
+                        <div class="profile__stat-name">Загружено книг</div>
+                    </div>
+                </a>
                 <div class="profile__stat-item">
                     <div class="profile__stat-count">${reviewsWrittenCount}</div>
                     <div class="profile__stat-name">Рецензий</div>

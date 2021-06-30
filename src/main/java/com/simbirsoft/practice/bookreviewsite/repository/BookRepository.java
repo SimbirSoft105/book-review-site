@@ -5,7 +5,9 @@ import com.simbirsoft.practice.bookreviewsite.enums.BookStatus;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.transaction.Transactional;
@@ -30,9 +32,10 @@ public interface BookRepository extends JpaRepository<Book, Long> {
 
     Optional<Book> findFirstByBookStatusOrderById(BookStatus bookStatus);
 
+    @Modifying
     @Transactional
     @Query("update Book book set book.rate = :rate where book.id = :id")
-    public void recalculateBookRate(@RequestParam("rate") float rate,
-                                    @RequestParam("id") Long id);
+    void recalculateBookRate(@RequestParam("rate") float rate,
+                             @RequestParam("id") Long id);
 
 }
