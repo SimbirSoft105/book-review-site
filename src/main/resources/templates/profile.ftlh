@@ -28,7 +28,7 @@
             </div>
 
             <div class="profile__stat">
-                <a href="/book/my">
+                <a style="text-decoration: none" href="/book/my">
                     <div class="profile__stat-item">
                         <div class="profile__stat-count">${booksPushedCount}</div>
                         <div class="profile__stat-name">Загружено книг</div>
