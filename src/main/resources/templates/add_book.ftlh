@@ -4,6 +4,10 @@
 <@base.main [] "Добавать новую книгу">
     <section class="add_book">
         <div class="add_book__inner">
+            <div class="profile__header">
+                <h2 class="profile__title">Добавить книгу</h2>
+                <p class="profile__header-desc">Здесь вы можете добавить новую книгу</p>
+            </div>
             <@spring.bind "addBookForm"/>
             <form class="add_book__body" method="post" enctype="multipart/form-data">
                 <div class="profile__photo">

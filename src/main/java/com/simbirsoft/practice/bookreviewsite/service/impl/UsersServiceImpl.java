@@ -5,6 +5,7 @@ import com.simbirsoft.practice.bookreviewsite.dto.UserDTO;
 import com.simbirsoft.practice.bookreviewsite.entity.User;
 import com.simbirsoft.practice.bookreviewsite.exception.UserNotFoundException;
 import com.simbirsoft.practice.bookreviewsite.repository.UsersRepository;
+import com.simbirsoft.practice.bookreviewsite.security.details.CustomUser;
 import com.simbirsoft.practice.bookreviewsite.security.details.CustomUserDetails;
 import com.simbirsoft.practice.bookreviewsite.service.UsersService;
 import com.simbirsoft.practice.bookreviewsite.util.AuthRefreshUtil;
@@ -61,7 +62,7 @@ public class UsersServiceImpl implements UsersService {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
-        User user = userDetails.getUser();
+        CustomUser user = userDetails.getUser();
         user.setAvatar(newAvatar);
         user.setName(newName);
         user.setEmail(newEmail);

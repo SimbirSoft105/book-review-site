@@ -4,6 +4,8 @@ import com.simbirsoft.practice.bookreviewsite.entity.User;
 import com.simbirsoft.practice.bookreviewsite.enums.Role;
 import com.simbirsoft.practice.bookreviewsite.enums.UserStatus;
 import com.simbirsoft.practice.bookreviewsite.repository.UsersRepository;
+import com.simbirsoft.practice.bookreviewsite.security.details.CustomUser;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
@@ -22,8 +24,14 @@ import java.util.Optional;
 @Service
 public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 
-    @Autowired
-    private UsersRepository usersRepository;
+    private final UsersRepository usersRepository;
+
+    private final ModelMapper modelMapper;
+
+    public CustomOAuth2UserService(UsersRepository usersRepository, ModelMapper modelMapper) {
+        this.usersRepository = usersRepository;
+        this.modelMapper = modelMapper;
+    }
 
     @Override
     public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
@@ -32,24 +40,27 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         String email = oAuth2User.getAttribute("email");
         String name = oAuth2User.getAttribute("name");
 
-        Optional<User> optionalUser = usersRepository.getByEmail(email);
+        User user = getOrCreateUser(email, name);
+        CustomUser customUser = modelMapper.map(user, CustomUser.class);
 
-        User user;
+        return new CustomOAuth2User(oAuth2User, customUser);
+    }
+
+    private User getOrCreateUser(String email, String name) {
+        Optional<User> optionalUser = usersRepository.getByEmail(email);
 
         if (!optionalUser.isPresent()) {
 
-            user = User.builder()
+            User user = User.builder()
                     .email(email)
                     .name(name)
                     .role(Role.USER)
                     .userStatus(UserStatus.CONFIRMED)
                     .build();
 
-            user = usersRepository.save(user);
-        } else {
-            user = optionalUser.get();
+            return usersRepository.save(user);
         }
 
-        return new CustomOAuth2User(oAuth2User, user);
+        return optionalUser.get();
     }
 }

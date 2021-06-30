@@ -142,6 +142,6 @@ public class BooksController {
             @PathVariable("bookId") Long bookId) {
 
         return ResponseEntity.ok(reviewsService.addReview(reviewAdditionDTO,
-                userDetails.getUser(), bookId));
+                userDetails.getUser().getId(), bookId));
     }
 }

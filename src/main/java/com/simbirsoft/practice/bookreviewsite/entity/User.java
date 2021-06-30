@@ -18,9 +18,7 @@ import java.util.Set;
 @Builder
 @Entity
 @Table(name = "account")
-public class User implements Serializable {
-
-    private static final long serialVersionUID = 4437060923718907313L;
+public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -45,12 +43,10 @@ public class User implements Serializable {
     @Enumerated(EnumType.STRING)
     private UserStatus userStatus;
 
-    @Transient
     @JsonIgnore
     @OneToMany(mappedBy = "pushedBy", fetch = FetchType.EAGER)
     private Set<Book> books;
 
-    @Transient
     @JsonIgnore
     @OneToMany(mappedBy = "author", fetch = FetchType.EAGER)
     private Set<Review> reviews;
