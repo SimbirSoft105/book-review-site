@@ -38,8 +38,8 @@
                         <li class="film__desc-item film__country"><span class="film__field">Страна:</span>
                             <span>${book.country.name}</span></li>
                     </ul>
-                    <form action="" method="post" class="add_film">
-                        <button id="favorite_btn" type="button">Добавить в избранное</button>
+                    <form action="/book/favorites/add/${book.id}" method="post" class="add_film">
+                        <button id="favorite_btn" type="submit">Добавить в избранное</button>
                     </form>
                     <!--                <div class="add__love">Добвавлено в любимое</div>-->
                 </article>
@@ -504,21 +504,6 @@
             }
         }
 
-    </script>
-
-    <script>
-        let favoriteBtn = document.getElementById("favorite_btn");
-
-        favoriteBtn.onclick(async () => {
-            let response = await fetch('/book/${book.id}/addReview',
-                {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json;charset=utf-8'
-                    },
-                    body: JSON.stringify(body)
-                })
-        })
     </script>
 
     <script src="/js/header.js"></script>

@@ -209,6 +209,25 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
+    public boolean addBookToFavorite(Long bookId, Long userId) {
+        User user = usersRepository.findById(userId)
+                .orElseThrow(() -> new UserNotFoundException("User not found"));
+
+        Optional<Book> optionalBook = bookRepository.findById(bookId);
+
+        if (optionalBook.isPresent()) {
+            Book book = optionalBook.get();
+
+            book.getLikedUsers().add(user);
+            user.getFavoriteBooks().add(book);
+
+            return true;
+        }
+
+        return false;
+    }
+
+    @Override
     public Page<BookDTO> getUserFavoriteBooks(Pageable pageable, Long userId) {
 
         User user = usersRepository.findById(userId)

@@ -1,6 +1,7 @@
 package com.simbirsoft.practice.bookreviewsite.controller.prod;
 
 import com.simbirsoft.practice.bookreviewsite.dto.*;
+import com.simbirsoft.practice.bookreviewsite.entity.User;
 import com.simbirsoft.practice.bookreviewsite.enums.BookStatus;
 import com.simbirsoft.practice.bookreviewsite.security.details.CustomUserDetails;
 import com.simbirsoft.practice.bookreviewsite.service.BookService;

@@ -76,6 +76,14 @@ public class UserBooksController {
         return ResponseEntity.ok(books);
     }
 
+    @PostMapping("/favorites/add/{id}")
+    public String addBookToFavorite(@AuthenticationPrincipal CustomUserDetails userDetails, @PathVariable Long id) {
+
+        bookService.addBookToFavorite(id, userDetails.getUser().getId());
+
+        return "redirect:/book/" + id;
+    }
+
     @PostMapping("/delete/{id}")
     public String deleteUserBook(@AuthenticationPrincipal CustomUserDetails userDetails, @PathVariable Long id) {
         bookService.deleteUserBook(id, userDetails.getUser().getId());

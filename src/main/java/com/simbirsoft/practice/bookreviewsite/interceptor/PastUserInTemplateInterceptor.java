@@ -1,6 +1,8 @@
 package com.simbirsoft.practice.bookreviewsite.interceptor;
 
+import com.simbirsoft.practice.bookreviewsite.dto.UserDTO;
 import com.simbirsoft.practice.bookreviewsite.security.details.CustomUserDetails;
+import org.modelmapper.ModelMapper;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
@@ -19,6 +21,12 @@ import javax.servlet.http.HttpServletResponse;
 @Component
 public class PastUserInTemplateInterceptor implements HandlerInterceptor {
 
+    private final ModelMapper modelMapper;
+
+    public PastUserInTemplateInterceptor(ModelMapper modelMapper) {
+        this.modelMapper = modelMapper;
+    }
+
     @Override
     public void postHandle(HttpServletRequest request,
                            HttpServletResponse response, Object handler,
@@ -32,7 +40,9 @@ public class PastUserInTemplateInterceptor implements HandlerInterceptor {
             if (!principal.equals("anonymousUser")) {
                 CustomUserDetails customUserDetails = (CustomUserDetails) authentication.getPrincipal();
 
-                modelAndView.getModel().put("user", customUserDetails.getUser());
+                UserDTO userDTO = modelMapper.map(customUserDetails.getUser(), UserDTO.class);
+
+                modelAndView.getModel().put("user", userDTO);
             }
         }
     }
