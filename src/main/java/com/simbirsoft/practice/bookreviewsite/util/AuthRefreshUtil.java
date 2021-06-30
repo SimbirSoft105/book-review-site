@@ -13,6 +13,7 @@ public class AuthRefreshUtil {
                 authentication.getCredentials(),
                 authentication.getAuthorities()
         );
+
         SecurityContextHolder.getContext().setAuthentication(refreshedAuth);
     }
 

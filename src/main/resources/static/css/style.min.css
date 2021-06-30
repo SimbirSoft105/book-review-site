@@ -1870,6 +1870,7 @@ html, body {
   background: url("/assets/images/allFilms/active.svg"); }
 
 .btn__filter {
+  text-decoration: none;
   margin-top: 30px;
   padding: 8px 30px;
   background: #1a1d24;
@@ -1978,6 +1979,7 @@ html, body {
   text-align: center; }
 
 .profile__stat-item {
+  text-decoration: none;
   padding: 15px 10px; }
 
 .profile__stat-count {

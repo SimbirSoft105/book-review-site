@@ -28,16 +28,18 @@
             </div>
 
             <div class="profile__stat">
-                <a href="/book/my">
-                    <div class="profile__stat-item">
-                        <div class="profile__stat-count">${booksPushedCount}</div>
-                        <div class="profile__stat-name">Загружено книг</div>
-                    </div>
+                <a href="/book/my" class="profile__stat-item">
+                    <div class="profile__stat-count">${booksPushedCount}</div>
+                    <div class="profile__stat-name">Загружено книг</div>
                 </a>
-                <div class="profile__stat-item">
+                <a href="/book/favorites" class="profile__stat-item">
+                    <div class="profile__stat-count">${favoriteBooksCount}</div>
+                    <div class="profile__stat-name">Книг в избранном</div>
+                </a>
+                <a href="#" class="profile__stat-item">
                     <div class="profile__stat-count">${reviewsWrittenCount}</div>
                     <div class="profile__stat-name">Рецензий</div>
-                </div>
+                </a>
             </div>
         </div>
     </section>

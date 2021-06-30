@@ -29,6 +29,8 @@ public interface BookRepository extends JpaRepository<Book, Long> {
 
     int countBookByPushedById(Long id);
 
+    int countBookByLikedUsersContaining(User user);
+
     Page<Book> findAllByPushedById(Pageable pageable, Long userId);
 
     Optional<Book> findFirstByBookStatusOrderById(BookStatus bookStatus);

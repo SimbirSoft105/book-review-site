@@ -27,6 +27,8 @@ public interface BookService {
 
     int getBooksCountUserPushed(Long userId);
 
+    int getUserFavoriteBooksCount(Long userId);
+
     List<CategoryDTO> getAllBookCategory();
 
     BookDTO createNewBook(AddBookForm addBookForm, Long userId);

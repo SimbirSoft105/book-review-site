@@ -55,6 +55,7 @@ public class User implements Serializable {
     @OneToMany(mappedBy = "author", fetch = FetchType.EAGER)
     private Set<Review> reviews;
 
+    @Transient
     @JsonIgnore
     @ManyToMany(mappedBy = "likedUsers", fetch = FetchType.EAGER)
     private Set<Book> favoriteBooks;

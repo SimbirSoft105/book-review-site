@@ -40,6 +40,7 @@ public class ProfileController {
         Long userId = userDetails.getUser().getId();
         model.addAttribute("booksPushedCount", bookService.getBooksCountUserPushed(userId));
         model.addAttribute("reviewsWrittenCount", reviewsService.getReviewsCountUserWrote(userId));
+        model.addAttribute("favoriteBooksCount", bookService.getUserFavoriteBooksCount(userId));
 
         return "profile";
     }

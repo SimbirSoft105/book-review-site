@@ -1,10 +1,13 @@
 <#import "base.ftlh" as base>
 
-<@base.main>
+<@base.main [] "Мои книги">
     <section class="profile">
         <div class="profile__inner">
             <div class="profile__header">
-                <h2 class="profile__title">Ваши книги</h2>
+                <div class="profile__header-flex">
+                    <h2 class="profile__title">Ваши книги</h2>
+                    <a href="/book/add" class="btn__filter" type="button">Добавить книгу</a>
+                </div>
                 <p class="profile__header-desc">Здесь вы можете просматривать ваши книги</p>
             </div>
 
@@ -15,7 +18,12 @@
                             <span class="films__count">${book?counter}</span>
                         </div>
                         <a href="/book/${book.id}" class="film__photo">
-                            <img src="${book.cover}" alt="" class="allfilm__img">
+                            <#if book.cover??>
+                                <img src="${book.cover}" alt="" class="allfilm__img">
+                            <#else>
+                                <img src="/images/default_cover.png" alt="" class="allfilm__img">
+                            </#if>
+                            
                             <span class="films__img-rating" title="${book.rate}">${book.rate}</span>
                         </a>
                         <div class="film__info-filter">

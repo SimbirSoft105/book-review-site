@@ -20,8 +20,11 @@ import java.time.LocalDateTime;
 public class ReviewsServiceImpl implements ReviewsService {
 
     private final ReviewsRepository reviewsRepository;
+
     private final BookRepository bookRepository;
+
     private final BookService bookService;
+
     private final ModelMapper modelMapper;
 
     public ReviewsServiceImpl(ReviewsRepository reviewsRepository, ModelMapper modelMapper,
