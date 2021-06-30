@@ -16,8 +16,8 @@ import java.util.Set;
 @Builder
 @Data
 @Entity
-@EqualsAndHashCode(exclude = {"pushedBy", "categories", "country", "language", "likedUsers"})
-@ToString(exclude = {"pushedBy", "categories", "country", "language", "likedUsers"})
+@EqualsAndHashCode(exclude = {"pushedBy", "categories", "country", "language", "likedUsers", "reviews"})
+@ToString(exclude = {"pushedBy", "categories", "country", "language", "likedUsers", "reviews"})
 public class Book {
 
     @Id

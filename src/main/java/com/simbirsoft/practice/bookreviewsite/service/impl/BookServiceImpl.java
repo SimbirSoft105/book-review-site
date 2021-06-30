@@ -26,7 +26,10 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.*;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
@@ -64,15 +67,20 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public Page<BookDTO> findAllByBookStatus(Pageable pageable, BookStatus bookStatus) {
+    public Page<BookDTO> getAllByBookStatus(Pageable pageable, BookStatus bookStatus) {
         return bookRepository.findAllByBookStatus(pageable, bookStatus)
                 .map(book -> modelMapper.map(book, BookDTO.class));
     }
 
     @Override
-    public Page<BookDTO> findAllByBookStatusAndTitle(Pageable pageable, BookStatus bookStatus, String title) {
+    public Page<BookDTO> getAllByBookStatusAndTitle(Pageable pageable, BookStatus bookStatus, String title) {
         return bookRepository.findAllByBookStatusAndTitleContainingIgnoreCase(pageable, bookStatus, title)
                 .map(book -> modelMapper.map(book, BookDTO.class));
+    }
+
+    @Override
+    public Page<BookDTO> getAllByBookStatusAndSortByReviews(Pageable pageable, BookStatus bookStatus) {
+        return bookRepository.findAllByBookStatusWithSortByReview(pageable, bookStatus).map(book -> modelMapper.map(book, BookDTO.class));
     }
 
     @Override

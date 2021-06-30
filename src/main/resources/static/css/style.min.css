@@ -2255,3 +2255,32 @@ html, body {
   font-size: 13px;
   color: red;
 }
+
+.block_floating-button {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.floating-button {
+  text-decoration: none;
+  display: inline-block;
+  width: 120px;
+  height: 35px;
+  line-height: 30px;
+  border-radius: 45px;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 11px;
+  text-transform: uppercase;
+  text-align: center;
+  letter-spacing: 1px;
+  font-weight: 600;
+  color: #524f4e;
+  background: white;
+  transition: .3s;
+}
+
+.floating-button:hover {
+  cursor: pointer;
+}
