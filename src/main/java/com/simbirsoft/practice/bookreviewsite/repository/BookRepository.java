@@ -30,6 +30,9 @@ public interface BookRepository extends JpaRepository<Book, Long> {
 
     Optional<Book> findFirstByBookStatusOrderById(BookStatus bookStatus);
 
+    @Query("select b from Book b LEFT JOIN Review r on b.id = r.book.id and b.bookStatus = :bookStatus group by b.id order by count(r.id) desc")
+    Page<Book> findAllByBookStatusWithSortByReview(Pageable pageable, BookStatus bookStatus);
+
     @Transactional
     @Query("update Book book set book.rate = :rate where book.id = :id")
     public void recalculateBookRate(@RequestParam("rate") float rate,

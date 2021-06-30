@@ -58,29 +58,27 @@ public class BooksController {
     }
 
     @GetMapping("/all")
-    public String getAllBooksPage(@PageableDefault(size = 7, sort = { "id" }, direction = Sort.Direction.DESC) Pageable pageable, Model model) {
-        Page<BookDTO> books = bookService.findAllByBookStatus(pageable, BookStatus.PUBLIC);
+    public String getAllBooksPage(@PageableDefault(size = 7, sort = {"id"}, direction = Sort.Direction.DESC) Pageable pageable, Model model) {
+        Page<BookDTO> books = bookService.getAllByBookStatus(pageable, BookStatus.PUBLIC);
 
-        model.addAttribute("title", "All Films");
         model.addAttribute("books", books);
+        System.out.println(books.getContent().toString());
 
         return "all_books";
     }
 
     @ResponseBody
     @GetMapping("/rest/all")
-    public ResponseEntity<Page<BookDTO>> getAllBooks(String title,
-            @PageableDefault(size = 7, sort = { "id" }, direction = Sort.Direction.DESC) Pageable pageable) {
+    public ResponseEntity<Page<BookDTO>> getAllBooks(String title, Boolean sortByReviews,
+            @PageableDefault(size = 7, sort = {"id"}, direction = Sort.Direction.DESC) Pageable pageable) {
 
         Page<BookDTO> books;
-        if (title == null) {
-            books = bookService.findAllByBookStatus(pageable, BookStatus.PUBLIC);
+        if (title == null && (sortByReviews == null || !sortByReviews)) {
+            books = bookService.getAllByBookStatus(pageable, BookStatus.PUBLIC);
+        } else if (sortByReviews == null || !sortByReviews) {
+            books = bookService.getAllByBookStatusAndTitle(pageable, BookStatus.PUBLIC, title);
         } else {
-            books = bookService.findAllByBookStatusAndTitle(pageable, BookStatus.PUBLIC, title);
-        }
-
-        if (books == null || books.getContent().size() == 0) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            books = bookService.getAllByBookStatusAndSortByReviews(pageable, BookStatus.PUBLIC);
         }
 
         return ResponseEntity.ok(books);
@@ -133,9 +131,9 @@ public class BooksController {
 
     @GetMapping("{bookId}/ajax")
     public ResponseEntity<Page<ReviewDTO>> getBookPage(@PathVariable("bookId") Long bookId,
-                              @PageableDefault(size = 5,
-                                      sort = "createdAt",
-                                      direction = Sort.Direction.DESC) Pageable pageable) {
+                                                       @PageableDefault(size = 5,
+                                                               sort = "createdAt",
+                                                               direction = Sort.Direction.DESC) Pageable pageable) {
 
         Page<ReviewDTO> reviews = reviewsService.getAllByBookId(bookId, pageable);
         return ResponseEntity.ok(reviews);

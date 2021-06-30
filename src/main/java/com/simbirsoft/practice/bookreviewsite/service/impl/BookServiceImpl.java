@@ -5,9 +5,7 @@ import com.cloudinary.utils.ObjectUtils;
 import com.simbirsoft.practice.bookreviewsite.dto.AddBookForm;
 import com.simbirsoft.practice.bookreviewsite.dto.BookDTO;
 import com.simbirsoft.practice.bookreviewsite.dto.CategoryDTO;
-import com.simbirsoft.practice.bookreviewsite.dto.ReviewAdditionDTO;
 import com.simbirsoft.practice.bookreviewsite.entity.Book;
-import com.simbirsoft.practice.bookreviewsite.entity.Review;
 import com.simbirsoft.practice.bookreviewsite.entity.User;
 import com.simbirsoft.practice.bookreviewsite.enums.BookStatus;
 import com.simbirsoft.practice.bookreviewsite.exception.ResourceNotFoundException;
@@ -20,18 +18,16 @@ import org.apache.commons.io.FileUtils;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.server.ResponseStatusException;
-import sun.misc.FloatingDecimal;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.*;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
@@ -65,15 +61,22 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public Page<BookDTO> findAllByBookStatus(Pageable pageable, BookStatus bookStatus) {
-        return bookRepository.findAllByBookStatus(pageable, bookStatus)
+    public Page<BookDTO> getAllByBookStatus(Pageable pageable, BookStatus bookStatus) {
+        Page<BookDTO> books = bookRepository.findAllByBookStatus(pageable, bookStatus)
+                .map(book -> modelMapper.map(book, BookDTO.class));
+        System.out.println(books.getContent().toString());
+        return books;
+    }
+
+    @Override
+    public Page<BookDTO> getAllByBookStatusAndTitle(Pageable pageable, BookStatus bookStatus, String title) {
+        return bookRepository.findAllByBookStatusAndTitleContainingIgnoreCase(pageable, bookStatus, title)
                 .map(book -> modelMapper.map(book, BookDTO.class));
     }
 
     @Override
-    public Page<BookDTO> findAllByBookStatusAndTitle(Pageable pageable, BookStatus bookStatus, String title) {
-        return bookRepository.findAllByBookStatusAndTitleContainingIgnoreCase(pageable, bookStatus, title)
-                .map(book -> modelMapper.map(book, BookDTO.class));
+    public Page<BookDTO> getAllByBookStatusAndSortByReviews(Pageable pageable, BookStatus bookStatus) {
+        return bookRepository.findAllByBookStatusWithSortByReview(pageable, bookStatus).map(book -> modelMapper.map(book, BookDTO.class));
     }
 
     @Override
