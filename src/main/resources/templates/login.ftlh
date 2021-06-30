@@ -11,7 +11,7 @@
             </a>
             <div class="auth__logo">
                 <div class="auth__logo-inner">
-                    <img src="/images/header/logo-1x.png" alt="" class="auth__logo-img">
+                    <img src="/images/header/logo.png" alt="" class="auth__logo-img">
                 </div>
             </div>
             <div class="auth__welcome">

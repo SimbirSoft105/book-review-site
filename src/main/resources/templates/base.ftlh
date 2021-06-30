@@ -230,7 +230,7 @@
             <div class="header__inner">
                 <div class="menu__part">
                     <div class="logo">
-                        <img src="../static/images/header/logo-1x.png" alt="" class="logo__img">
+                        <img src="../static/images/header/logo.png" alt="" class="logo__img">
                     </div>
                     <button type="button" class="burger">
                         <svg class="menu-symbol">
