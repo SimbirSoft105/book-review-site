@@ -15,7 +15,11 @@
                             <span class="films__count">${book?counter}</span>
                         </div>
                         <a href="/book/${book.id}" class="film__photo">
-                            <img src="${book.cover}" alt="" class="allfilm__img">
+                            <#if book.cover??>
+                                <img src="${book.cover}" alt="" class="allfilm__img">
+                            <#else>
+                                <img src="/images/default_cover.png" alt="" class="allfilm__img">
+                            </#if>
                             <span class="films__img-rating" title="${book.rate}">${book.rate}</span>
                         </a>
                         <div class="film__info-filter">

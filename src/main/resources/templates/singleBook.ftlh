@@ -6,7 +6,11 @@
             <div class="singleFilm__item">
                 <div class="single__photo-block">
                     <div class="single__photo-film">
-                        <img src="${book.cover}" alt="" class="film__img">
+                        <#if book.cover??>
+                            <img src="${book.cover}" alt="" class="film__img">
+                        <#else>
+                            <img src="/images/default_cover.png" alt="" class="film__img">
+                        </#if>
                     </div>
                 </div>
                 <article class="film__info">
@@ -35,7 +39,7 @@
                             <span>${book.country.name}</span></li>
                     </ul>
                     <form action="" method="post" class="add_film">
-                        <button type="button">Добавить в избранное</button>
+                        <button id="favorite_btn" type="button">Добавить в избранное</button>
                     </form>
                     <!--                <div class="add__love">Добвавлено в любимое</div>-->
                 </article>
@@ -304,6 +308,7 @@
             }
         })
     </script>
+
     <!--Скрипт для оценки-->
     <script>
 
@@ -500,4 +505,21 @@
         }
 
     </script>
+
+    <script>
+        let favoriteBtn = document.getElementById("favorite_btn");
+
+        favoriteBtn.onclick(async () => {
+            let response = await fetch('/book/${book.id}/addReview',
+                {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json;charset=utf-8'
+                    },
+                    body: JSON.stringify(body)
+                })
+        })
+    </script>
+
+    <script src="/js/header.js"></script>
 </@base.main>
