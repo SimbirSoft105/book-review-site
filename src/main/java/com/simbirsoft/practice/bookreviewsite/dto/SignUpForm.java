@@ -3,13 +3,19 @@ package com.simbirsoft.practice.bookreviewsite.dto;
 import com.simbirsoft.practice.bookreviewsite.validation.annotation.PasswordsMatch;
 import com.simbirsoft.practice.bookreviewsite.validation.annotation.UniqueEmail;
 import com.simbirsoft.practice.bookreviewsite.validation.annotation.ValidPassword;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
 @Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @PasswordsMatch(password = "password",
                 verifyPassword = "verifyPassword",
                 message = "Введенные пароли не совпадают")

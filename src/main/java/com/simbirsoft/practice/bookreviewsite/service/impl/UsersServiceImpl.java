@@ -4,6 +4,7 @@ import com.simbirsoft.practice.bookreviewsite.dto.ProfileEditForm;
 import com.simbirsoft.practice.bookreviewsite.dto.UserDTO;
 import com.simbirsoft.practice.bookreviewsite.entity.User;
 import com.simbirsoft.practice.bookreviewsite.exception.UserNotFoundException;
+import com.simbirsoft.practice.bookreviewsite.enums.UserStatus;
 import com.simbirsoft.practice.bookreviewsite.repository.UsersRepository;
 import com.simbirsoft.practice.bookreviewsite.security.details.CustomUser;
 import com.simbirsoft.practice.bookreviewsite.security.details.CustomUserDetails;
@@ -17,6 +18,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.Map;
+import java.util.Objects;
+import java.util.UUID;
 
 @Service
 public class UsersServiceImpl implements UsersService {
@@ -35,7 +39,7 @@ public class UsersServiceImpl implements UsersService {
     }
 
     @Override
-    public void editProfile(ProfileEditForm profileEditForm, UserDTO userDTO) {
+    public UserDTO editProfile(ProfileEditForm profileEditForm, UserDTO userDTO) {
 
         String newName = profileEditForm.getName();
         String newEmail = profileEditForm.getEmail();
@@ -53,9 +57,8 @@ public class UsersServiceImpl implements UsersService {
                 newAvatar = mediaFileUtils.uploadFile(
                         avatarFile.getOriginalFilename(), avatarFile.getBytes());
             } catch (IOException e) {
-                throw new IllegalStateException();
+                throw new IllegalStateException(e);
             }
-
         }
 
         usersRepository.editProfile(newName, newEmail, newAvatar);
@@ -67,7 +70,17 @@ public class UsersServiceImpl implements UsersService {
         user.setName(newName);
         user.setEmail(newEmail);
 
+        if (!userDTO.getEmail().equals(newEmail)) {
+            user.setUserStatus(UserStatus.NOT_CONFIRMED);
+
+            user.setConfirmCode(UUID.randomUUID().toString());
+
+            usersRepository.makeUserNotConfirmed(user.getConfirmCode(), user.getUserStatus());
+        }
+
         AuthRefreshUtil.refreshAuthentication(authentication);
+
+        return modelMapper.map(user, UserDTO.class);
     }
 
     @Override

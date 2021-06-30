@@ -8,20 +8,20 @@ import com.simbirsoft.practice.bookreviewsite.exception.UserNotFoundException;
 import com.simbirsoft.practice.bookreviewsite.dto.SignUpForm;
 import com.simbirsoft.practice.bookreviewsite.repository.UsersRepository;
 import com.simbirsoft.practice.bookreviewsite.security.details.CustomUserDetails;
+import com.simbirsoft.practice.bookreviewsite.util.AuthRefreshUtil;
 import com.simbirsoft.practice.bookreviewsite.util.ConfirmMailGenerator;
 import org.modelmapper.ModelMapper;
 import com.simbirsoft.practice.bookreviewsite.service.EmailSendingService;
 import com.simbirsoft.practice.bookreviewsite.service.SignUpService;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -58,7 +58,7 @@ public class SignUpServiceImpl implements SignUpService {
     }
 
     @Override
-    public void signUpWithRole(SignUpForm signUpForm, Role role) {
+    public UserStatus devSignUpWithRole(SignUpForm signUpForm, Role role) {
 
         User user = User.builder()
                 .name(signUpForm.getName())
@@ -66,26 +66,27 @@ public class SignUpServiceImpl implements SignUpService {
                 .hashedPassword(passwordEncoder.encode(signUpForm.getPassword()))
                 .role(role)
                 .confirmCode(UUID.randomUUID().toString())
-                .build();
-
-        UserStatus userStatus;
-
-        // TODO
-        if (activeProfile.equals("dev")) {
-            userStatus = UserStatus.CONFIRMED;
-        } else userStatus = UserStatus.NOT_CONFIRMED;
-
-        user.setUserStatus(userStatus);
+                .userStatus(UserStatus.CONFIRMED)
+                    .build();
         usersRepository.save(user);
 
-        if (activeProfile.equals("prod")) {
-            String letter = confirmMailGenerator.generateConfirmMail(
-                    user.getConfirmCode(),
-                    user.getName()
-            );
-            emailSendingService.sendEmail(user.getEmail(), letter,
-                    "Подтверждение email");
-        }
+        return user.getUserStatus();
+    }
+
+    @Override
+    public UserDTO prodSignUpWithRole(SignUpForm signUpForm, Role role) {
+
+        User user = User.builder()
+                .name(signUpForm.getName())
+                .email(signUpForm.getEmail())
+                .hashedPassword(passwordEncoder.encode(signUpForm.getPassword()))
+                .role(role)
+                .confirmCode(UUID.randomUUID().toString())
+                .userStatus(UserStatus.NOT_CONFIRMED)
+                    .build();
+        usersRepository.save(user);
+
+        return modelMapper.map(user, UserDTO.class);
     }
 
     @Override
@@ -98,9 +99,10 @@ public class SignUpServiceImpl implements SignUpService {
         usersRepository.save(user);
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (authentication != null && !(authentication.getPrincipal() instanceof String)) {
+        if (authentication != null && !(authentication instanceof AnonymousAuthenticationToken)) {
             CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
             userDetails.getUser().setUserStatus(UserStatus.CONFIRMED);
+            AuthRefreshUtil.refreshAuthentication(authentication);
         }
     }
 
@@ -108,4 +110,18 @@ public class SignUpServiceImpl implements SignUpService {
     public boolean userWithSuchEmailExists(String email) {
         return usersRepository.existsByEmail(email);
     }
+
+    @Override
+    public void sendConfirmEmailToUser(UserDTO userDTO) {
+
+        System.out.println("new code: " + userDTO.getConfirmCode());
+
+        String letter = confirmMailGenerator.generateConfirmMail(
+                userDTO.getConfirmCode(),
+                userDTO.getName()
+        );
+        emailSendingService.sendEmail(userDTO.getEmail(), letter,
+                "Подтверждение email");
+    }
+
 }

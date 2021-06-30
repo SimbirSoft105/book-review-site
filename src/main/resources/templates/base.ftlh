@@ -16,6 +16,14 @@
         <meta name="format-detection" content="telephone=no">
         <meta name="description" content="">
 
+        <style>
+            .error {
+                color: red;
+                font-size: 13px;
+                margin-top: 18px;
+            }
+        </style>
+
         <title>${title}</title>
     </head>
     <body>

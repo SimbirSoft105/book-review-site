@@ -43,18 +43,15 @@ public class BooksController {
 
     private final ReviewsService reviewsService;
 
-    private final ModelMapper modelMapper;
 
     @Autowired
     public BooksController(BookService bookService, LanguageService languageService,
-                           CountryService countryService, ReviewsService reviewsService,
-                           ModelMapper modelMapper) {
+                           CountryService countryService, ReviewsService reviewsService) {
 
         this.bookService = bookService;
         this.languageService = languageService;
         this.countryService = countryService;
         this.reviewsService = reviewsService;
-        this.modelMapper = modelMapper;
     }
 
     @GetMapping("/all")
