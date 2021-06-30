@@ -4,11 +4,11 @@
     <section class="contact--title">
         <div class="contact__bg--allFilm"></div>
         <div class="contact--title-inner">
-            <div class="contact__inner-title">All Books</div>
+            <div class="contact__inner-title">Все книги</div>
             <div class="contact__inner-subtitle">
-                <a href="#">Home</a>
+                <a href="#">Домашняя</a>
                 <div class="contact__line">/</div>
-                <div>All Books</div>
+                <div>Все книги</div>
             </div>
         </div>
     </section>
@@ -29,86 +29,7 @@
                                    placeholder="Поиск...">
                         </div>
                     </div>
-                    <#--                    <div class="filter__group">-->
-                    <#--                        <a href="#" class="filter__label">Страны</a>-->
-                    <#--                        <div class="filter__field-country">-->
-                    <#--                            <div class="field__filter field__filter--country">-->
-                    <#--                                Все страны-->
-                    <#--                                <input type="hidden" name="filter-country" value="Все страны">-->
-                    <#--                            </div>-->
-                    <#--                            <div class="filter__field-items">-->
-                    <#--                                <a href="#" class="filter__field-item country-item active__filter-field">-->
-                    <#--                                    Все страны-->
-                    <#--                                </a>-->
 
-                    <#--                                <a href="#" class="filter__field-item country-item">-->
-                    <#--                                    Россия-->
-                    <#--                                </a>-->
-
-                    <#--                                <a href="#" class="filter__field-item country-item">-->
-                    <#--                                    Украина-->
-                    <#--                                </a>-->
-
-                    <#--                                <a href="#" class="filter__field-item country-item">-->
-                    <#--                                    Сша-->
-                    <#--                                </a>-->
-                    <#--                            </div>-->
-                    <#--                        </div>-->
-                    <#--                    </div>-->
-
-                    <#--                    <div class="filter__group">-->
-                    <#--                        <div class="filter__label">Жанры</div>-->
-                    <#--                        <div class="filter__field-country">-->
-                    <#--                            <div class="field__filter field__filter--genre">-->
-                    <#--                                Все жанры-->
-                    <#--                                <input type="hidden" name="filter-genre" value="Все жанры">-->
-                    <#--                            </div>-->
-                    <#--                            <div class="filter__field-items">-->
-                    <#--                                <a href="#" class="filter__field-item active__filter-field genre-item">-->
-                    <#--                                    Все жанры-->
-                    <#--                                </a>-->
-
-                    <#--                                <a href="#" class="filter__field-item genre-item">-->
-                    <#--                                    Ужасы-->
-                    <#--                                </a>-->
-
-                    <#--                                <a href="#" class="filter__field-item genre-item">-->
-                    <#--                                    История-->
-                    <#--                                </a>-->
-
-                    <#--                                <a href="#" class="filter__field-item genre-item">-->
-                    <#--                                    ПРиключения-->
-                    <#--                                </a>-->
-                    <#--                            </div>-->
-                    <#--                        </div>-->
-                    <#--                    </div>-->
-
-                    <#--                    <div class="filter__group">-->
-                    <#--                        <div class="filter__label">Года</div>-->
-                    <#--                        <div class="filter__field-country">-->
-                    <#--                            <div class="field__filter field__filter--years">-->
-                    <#--                                Все года-->
-                    <#--                                <input type="hidden" name="filter-years" value="Все года">-->
-                    <#--                            </div>-->
-                    <#--                            <div class="filter__field-items">-->
-                    <#--                                <a href="#" class="filter__field-item active__filter-field year-item">-->
-                    <#--                                    Все года-->
-                    <#--                                </a>-->
-
-                    <#--                                <a href="#" class="filter__field-item year-item">-->
-                    <#--                                    2021-->
-                    <#--                                </a>-->
-
-                    <#--                                <a href="#" class="filter__field-item year-item">-->
-                    <#--                                    2020-->
-                    <#--                                </a>-->
-
-                    <#--                                <a href="#" class="filter__field-item year-item">-->
-                    <#--                                    2019-->
-                    <#--                                </a>-->
-                    <#--                            </div>-->
-                    <#--                        </div>-->
-                    <#--                    </div>-->
                     <button id="searchBtn" class="btn__filter" type="button">Применить</button>
                 </form>
             </div>
@@ -121,13 +42,11 @@
                                 <span class="films__count">${count}</span>
                             </div>
                             <a href="/book/${book.id}" class="film__photo">
-                                <img
-                                        <#if book.cover??>
-                                            src="${book.cover}"
-                                        <#else>
-                                            src="/images/no_cover.ico"
-                                        </#if> alt="" class="allfilm__img">
-
+                                <#if book.cover??>
+                                    <img src="${book.cover}" alt="" class="allfilm__img">
+                                <#else>
+                                    <img src="/images/default_cover.png" alt="" class="allfilm__img">
+                                </#if>
                                 <span class="films__img-rating rateItem" title="${book.rate}">${book.rate}</span>
                             </a>
                             <div class="film__info-filter">
@@ -163,10 +82,10 @@
     <footer class="footer">
         <div class="footer__inner">
             <div class="footer__logo">
-                <img src="/images/header/logo-1x.png" alt="" class="footer__logo-img">
+                <img src="/images/header/logo.png" alt="" class="footer__logo-img">
             </div>
             <div class="footer__copyright">
-                © 2021. All rights reserved.
+                © 2021. Все права защищены.
             </div>
         </div>
     </footer>

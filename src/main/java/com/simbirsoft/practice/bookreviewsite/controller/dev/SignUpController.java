@@ -2,6 +2,7 @@ package com.simbirsoft.practice.bookreviewsite.controller.dev;
 
 import com.simbirsoft.practice.bookreviewsite.enums.Role;
 import com.simbirsoft.practice.bookreviewsite.dto.SignUpForm;
+import com.simbirsoft.practice.bookreviewsite.exception.UserNotFoundException;
 import com.simbirsoft.practice.bookreviewsite.service.SignUpService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
@@ -10,6 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -43,7 +45,20 @@ public class SignUpController {
             return "signUp";
         }
         else {
-            signUpService.signUpWithRole(signUpForm, Role.USER);
+            signUpService.devSignUpWithRole(signUpForm, Role.USER);
         } return "redirect:login";
+    }
+
+    @GetMapping("profileEditConfirmEmail")
+    public String confirmChangedEmail() {
+        return "email_changed_confirm_email";
+    }
+
+    @GetMapping("confirm_email/{confirm_code}")
+    public String confirmEmail(@PathVariable("confirm_code") String confirmCode)
+            throws UserNotFoundException {
+
+        signUpService.confirmUserByConfirmCode(confirmCode);
+        return "email_confirmed";
     }
 }

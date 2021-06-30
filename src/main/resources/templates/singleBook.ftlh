@@ -1,12 +1,16 @@
 <#import "base.ftlh" as base>
 
-<@base.main>
+<@base.main [] "${book.title}">
     <section class="singleFilm">
         <div class="singleFilm__inner">
             <div class="singleFilm__item">
                 <div class="single__photo-block">
                     <div class="single__photo-film">
-                        <img src="${book.cover}" alt="" class="film__img">
+                        <#if book.cover??>
+                            <img src="${book.cover}" alt="" class="film__img">
+                        <#else>
+                            <img src="/images/default_cover.png" alt="" class="film__img">
+                        </#if>
                     </div>
                 </div>
                 <article class="film__info">
@@ -34,8 +38,8 @@
                         <li class="film__desc-item film__country"><span class="film__field">Страна:</span>
                             <span>${book.country.name}</span></li>
                     </ul>
-                    <form action="" method="post" class="add_film">
-                        <button type="button">Добавить в избранное</button>
+                    <form action="/book/favorites/add/${book.id}" method="post" class="add_film">
+                        <button id="favorite_btn" type="submit">Добавить в избранное</button>
                     </form>
                     <!--                <div class="add__love">Добвавлено в любимое</div>-->
                 </article>
@@ -190,10 +194,10 @@
     <footer class="footer">
         <div class="footer__inner">
             <div class="footer__logo">
-                <img src="assets/images/header/logo-1x.png" alt="" class="footer__logo-img">
+                <img src="/images/header/logo.png" alt="" class="footer__logo-img">
             </div>
             <div class="footer__copyright">
-                © 2021. All rights reserved.
+                © 2021. Все права защищены.
             </div>
         </div>
     </footer>
@@ -304,6 +308,7 @@
             }
         })
     </script>
+
     <!--Скрипт для оценки-->
     <script>
 
@@ -500,4 +505,6 @@
         }
 
     </script>
+
+    <script src="/js/header.js"></script>
 </@base.main>

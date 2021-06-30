@@ -17,6 +17,7 @@ import java.util.List;
  */
 
 public interface BookService {
+
     Page<BookDTO> getAllByBookStatus(Pageable pageable, BookStatus bookStatus);
 
     Page<BookDTO> getAllByBookStatusAndTitle(Pageable pageable, BookStatus bookStatus, String title);
@@ -26,6 +27,8 @@ public interface BookService {
     Page<BookDTO> getAllByBookStatusAndSortByReviews(Pageable pageable, BookStatus bookStatus);
 
     int getBooksCountUserPushed(Long userId);
+
+    int getUserFavoriteBooksCount(Long userId);
 
     List<CategoryDTO> getAllBookCategory();
 
@@ -44,4 +47,6 @@ public interface BookService {
     boolean deleteUserFavoriteBook(Long bookId, Long userId);
 
     float recalculateBookRate(Long bookId);
+
+    boolean addBookToFavorite(Long bookId, Long userId);
 }

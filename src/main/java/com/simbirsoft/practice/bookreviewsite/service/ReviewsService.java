@@ -13,7 +13,7 @@ public interface ReviewsService {
 
     Page<ReviewDTO> getAllByBookId(Long bookId, Pageable pageable);
 
-    ReviewAdditionReturnDTO addReview(ReviewAdditionDTO reviewAdditionDTO, User author, Long bookId);
+    ReviewAdditionReturnDTO addReview(ReviewAdditionDTO reviewAdditionDTO, Long authorId, Long bookId);
 
     Long deleteById(Long id);
 

@@ -17,9 +17,9 @@ public class UserDetailsImpl implements CustomUserDetails, Serializable {
 
     private static final long serialVersionUID = 2737079830778069343L;
 
-    private User user;
+    private CustomUser user;
 
-    public UserDetailsImpl(User user) {
+    public UserDetailsImpl(CustomUser user) {
         this.user = user;
     }
 
@@ -64,7 +64,7 @@ public class UserDetailsImpl implements CustomUserDetails, Serializable {
     }
 
     @Override
-    public User getUser() {
+    public CustomUser getUser() {
         return user;
     }
 }

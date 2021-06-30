@@ -1,6 +1,6 @@
 <#import "base.ftlh" as base>
 
-<@base.main>
+<@base.main [] "Профиль">
     <section class="profile">
         <div class="profile__inner">
             <div class="profile__header">
@@ -28,16 +28,18 @@
             </div>
 
             <div class="profile__stat">
-                <a style="text-decoration: none" href="/book/my">
-                    <div class="profile__stat-item">
-                        <div class="profile__stat-count">${booksPushedCount}</div>
-                        <div class="profile__stat-name">Загружено книг</div>
-                    </div>
+                <a href="/book/my" class="profile__stat-item">
+                    <div class="profile__stat-count">${booksPushedCount}</div>
+                    <div class="profile__stat-name">Загружено книг</div>
                 </a>
-                <div class="profile__stat-item">
+                <a href="/book/favorites" class="profile__stat-item">
+                    <div class="profile__stat-count">${favoriteBooksCount}</div>
+                    <div class="profile__stat-name">Книг в избранном</div>
+                </a>
+                <a href="#" class="profile__stat-item">
                     <div class="profile__stat-count">${reviewsWrittenCount}</div>
                     <div class="profile__stat-name">Рецензий</div>
-                </div>
+                </a>
             </div>
         </div>
     </section>
@@ -45,72 +47,13 @@
     <footer class="footer">
         <div class="footer__inner">
             <div class="footer__logo">
-                <img src="../static/images/header/logo-1x.png" alt="" class="footer__logo-img">
+                <img src="/images/header/logo.png" alt="" class="footer__logo-img">
             </div>
             <div class="footer__copyright">
-                © 2021. All rights reserved.
+                © 2021. Все права защищены.
             </div>
         </div>
     </footer>
 
-    <script>
-        const mainPage = document.querySelector('#page');
-        const menu = document.querySelector(".burger");
-        const closeBtn = document.querySelector(".close__block");
-        const links = document.querySelector("#links");
-        const allLinks = document.querySelectorAll(".nav__link-item");
-        const header = document.querySelector('#header');
-        const btnProfile = document.querySelector('.header__profile--svg');
-        const profileContent = document.querySelector('.header__profile-content');
-
-        const allFilterMovies = document.querySelectorAll(".movies__filter-item");
-        const openMenu = () => {
-            if (links.className.includes("open")) {
-                links.classList.remove('open');
-                allLinks.forEach((item) => {
-                    item.classList.remove("fade");
-                });
-                mainPage.classList.remove("overflow-hidden");
-            } else {
-                links.classList.add('open');
-                allLinks.forEach((item) => {
-                    item.classList.add("fade");
-                });
-                mainPage.classList.add("overflow-hidden");
-            }
-        };
-
-        const closeMenu = () => {
-            if (links.className.includes("open")) {
-                links.classList.remove('open');
-                allLinks.forEach((item) => {
-                    item.classList.remove("fade");
-                });
-                mainPage.classList.remove("overflow-hidden");
-            }
-        };
-
-        const tooltips = () => {
-            profileContent.classList.toggle('vis');
-        };
-
-
-        menu.addEventListener("click", openMenu);
-        closeBtn.addEventListener("click", closeMenu);
-        allLinks.forEach((item) => {
-            item.addEventListener("click", closeMenu);
-        });
-        allFilterMovies.forEach((item) => {
-            item.addEventListener("click", function (e) {
-                e.preventDefault();
-                if (!e.target.getAttribute('class').includes('filter-active')) {
-                    allFilterMovies.forEach((i) => {
-                        i.classList.remove('filter-active');
-                    });
-                    this.classList.add('filter-active');
-                }
-            });
-        });
-        btnProfile.addEventListener("click", tooltips);
-    </script>
+    <script src="/js/header.js"></script>
 </@base.main>

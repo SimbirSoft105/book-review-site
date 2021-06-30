@@ -5,8 +5,10 @@ import com.simbirsoft.practice.bookreviewsite.entity.Book;
 import com.simbirsoft.practice.bookreviewsite.entity.Review;
 import com.simbirsoft.practice.bookreviewsite.entity.User;
 import com.simbirsoft.practice.bookreviewsite.exception.ResourceNotFoundException;
+import com.simbirsoft.practice.bookreviewsite.exception.UserNotFoundException;
 import com.simbirsoft.practice.bookreviewsite.repository.BookRepository;
 import com.simbirsoft.practice.bookreviewsite.repository.ReviewsRepository;
+import com.simbirsoft.practice.bookreviewsite.repository.UsersRepository;
 import com.simbirsoft.practice.bookreviewsite.service.BookService;
 import com.simbirsoft.practice.bookreviewsite.service.ReviewsService;
 import org.modelmapper.ModelMapper;
@@ -20,15 +22,23 @@ import java.time.LocalDateTime;
 public class ReviewsServiceImpl implements ReviewsService {
 
     private final ReviewsRepository reviewsRepository;
+
     private final BookRepository bookRepository;
+
+    private final UsersRepository usersRepository;
+
     private final BookService bookService;
+
     private final ModelMapper modelMapper;
 
     public ReviewsServiceImpl(ReviewsRepository reviewsRepository, ModelMapper modelMapper,
-                              BookRepository bookRepository, BookService bookService) {
+                              BookRepository bookRepository, UsersRepository usersRepository,
+                              BookService bookService) {
+
         this.reviewsRepository = reviewsRepository;
         this.modelMapper = modelMapper;
         this.bookRepository = bookRepository;
+        this.usersRepository = usersRepository;
         this.bookService = bookService;
     }
 
@@ -44,10 +54,13 @@ public class ReviewsServiceImpl implements ReviewsService {
     }
 
     @Override
-    public ReviewAdditionReturnDTO addReview(ReviewAdditionDTO reviewAdditionDTO, User author, Long bookId) {
+    public ReviewAdditionReturnDTO addReview(ReviewAdditionDTO reviewAdditionDTO, Long authorId, Long bookId) {
 
         Book book = bookRepository.findById(bookId).orElseThrow(() ->
                 new ResourceNotFoundException("Book not found"));
+
+        User author = usersRepository.findById(authorId)
+                .orElseThrow(() -> new UserNotFoundException("User not found"));
 
         Review review = Review.builder()
                 .book(book)

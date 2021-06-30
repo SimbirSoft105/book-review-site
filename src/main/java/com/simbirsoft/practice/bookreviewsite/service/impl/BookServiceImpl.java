@@ -1,7 +1,5 @@
 package com.simbirsoft.practice.bookreviewsite.service.impl;
 
-import com.cloudinary.Cloudinary;
-import com.cloudinary.utils.ObjectUtils;
 import com.simbirsoft.practice.bookreviewsite.dto.AddBookForm;
 import com.simbirsoft.practice.bookreviewsite.dto.BookDTO;
 import com.simbirsoft.practice.bookreviewsite.dto.CategoryDTO;
@@ -16,8 +14,7 @@ import com.simbirsoft.practice.bookreviewsite.repository.CategoryRepository;
 import com.simbirsoft.practice.bookreviewsite.repository.ReviewsRepository;
 import com.simbirsoft.practice.bookreviewsite.repository.UsersRepository;
 import com.simbirsoft.practice.bookreviewsite.service.BookService;
-import com.simbirsoft.practice.bookreviewsite.service.ReviewsService;
-import org.apache.commons.io.FileUtils;
+import com.simbirsoft.practice.bookreviewsite.util.MediaFileUtils;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -25,11 +22,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.List;
-import java.util.Map;
-import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -50,20 +44,20 @@ public class BookServiceImpl implements BookService {
 
     private final ModelMapper modelMapper;
 
-    private final Cloudinary cloudinary;
+    private final MediaFileUtils mediaFileUtils;
 
     private final ReviewsRepository reviewsRepository;
 
     @Autowired
     public BookServiceImpl(BookRepository bookRepository, CategoryRepository categoryRepository,
-                           ModelMapper modelMapper, Cloudinary cloudinary,
-                           UsersRepository usersRepository, ReviewsRepository reviewsRepository) {
+                           ModelMapper modelMapper, UsersRepository usersRepository,
+                           MediaFileUtils imageUploadUtils, ReviewsRepository reviewsRepository) {
 
         this.bookRepository = bookRepository;
         this.categoryRepository = categoryRepository;
         this.modelMapper = modelMapper;
-        this.cloudinary = cloudinary;
         this.usersRepository = usersRepository;
+        this.mediaFileUtils = imageUploadUtils;
         this.reviewsRepository = reviewsRepository;
     }
 
@@ -90,6 +84,14 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
+    public int getUserFavoriteBooksCount(Long userId) {
+        User user = usersRepository.findById(userId)
+                .orElseThrow(() -> new UserNotFoundException("User not found"));
+
+        return bookRepository.countBookByLikedUsersContaining(user);
+    }
+
+    @Override
     public List<CategoryDTO> getAllBookCategory() {
         return categoryRepository.findAll().stream()
                 .map(category -> modelMapper.map(category, CategoryDTO.class))
@@ -98,32 +100,28 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public BookDTO createNewBook(AddBookForm addBookForm, Long userId) {
-        Optional<User> optionalUser = usersRepository.findById(userId);
-
-        if (!optionalUser.isPresent()) {
-            throw new UserNotFoundException("User not found");
-        }
+        User user = usersRepository.findById(userId)
+                .orElseThrow(() -> new UserNotFoundException("User not found"));
 
         Book book = modelMapper.map(addBookForm, Book.class);
 
-        book.setPushedBy(optionalUser.get());
+        book.setPushedBy(user);
         book.setBookStatus(BookStatus.PUBLIC); //TODO set moderation
 
-        MultipartFile cover = addBookForm.getCover();
-        if (!cover.isEmpty()) {
+        MultipartFile multipart = addBookForm.getCover();
+
+        if (!multipart.isEmpty()) {
+
             try {
-                File fileToUpload = new File(Objects.requireNonNull(cover.getOriginalFilename()));
+                String url = mediaFileUtils.uploadFile(
+                        multipart.getOriginalFilename(), multipart.getBytes());
 
-                FileUtils.writeByteArrayToFile(fileToUpload, cover.getBytes());
-
-                Map response = cloudinary.uploader().upload(fileToUpload, ObjectUtils.emptyMap());
-
-                book.setCover((String) response.get("url"));
-
-                fileToUpload.delete();
+                book.setCover(url);
             } catch (IOException e) {
-                throw new IllegalStateException(e);
+                throw new IllegalStateException();
             }
+        } else {
+            book.setCover(null);
         }
 
         book = bookRepository.save(book);
@@ -146,15 +144,10 @@ public class BookServiceImpl implements BookService {
 
             if (userId.equals(book.getPushedBy().getId())) {
 
-                try {
-                    String cover = book.getCover();
-                    String publicId = cover.substring(
-                            cover.lastIndexOf("/") + 1, cover.lastIndexOf("."));
-
-                    cloudinary.uploader().destroy(publicId, ObjectUtils.emptyMap());
-                } catch (IOException ignore) {}
+                mediaFileUtils.deleteFile(book.getCover());
 
                 bookRepository.delete(book);
+
                 return true;
             }
         }
@@ -213,6 +206,25 @@ public class BookServiceImpl implements BookService {
         bookRepository.recalculateBookRate(rate, bookId);
 
         return rate;
+    }
+
+    @Override
+    public boolean addBookToFavorite(Long bookId, Long userId) {
+        User user = usersRepository.findById(userId)
+                .orElseThrow(() -> new UserNotFoundException("User not found"));
+
+        Optional<Book> optionalBook = bookRepository.findById(bookId);
+
+        if (optionalBook.isPresent()) {
+            Book book = optionalBook.get();
+
+            book.getLikedUsers().add(user);
+            user.getFavoriteBooks().add(book);
+
+            return true;
+        }
+
+        return false;
     }
 
     @Override

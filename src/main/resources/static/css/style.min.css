@@ -1146,7 +1146,7 @@ html, body {
   position: absolute;
   top: 0;
   left: 0;
-  background: url("/assets/images/about/aboutSmileFace.jpg") center no-repeat;
+  background: url("/images/about/library.png") center no-repeat;
   background-size: cover;
   bottom: 0; }
 
@@ -1157,15 +1157,14 @@ html, body {
   padding: 2rem 0; }
 
 .about__suptitle {
-  font-size: 13px;
+  font-size: 12px;
   line-height: 16px;
-  font-weight: 700;
   letter-spacing: 1px;
-  text-transform: uppercase;
-  font-style: normal;
+  font-style: italic;
   position: relative;
   margin-bottom: 15px;
-  padding-top: 20px; }
+  padding-top: 20px;
+}
   .about__suptitle:before {
     content: "";
     display: block;
@@ -1870,6 +1869,7 @@ html, body {
   background: url("/assets/images/allFilms/active.svg"); }
 
 .btn__filter {
+  text-decoration: none;
   margin-top: 30px;
   padding: 8px 30px;
   background: #1a1d24;
@@ -1978,6 +1978,7 @@ html, body {
   text-align: center; }
 
 .profile__stat-item {
+  text-decoration: none;
   padding: 15px 10px; }
 
 .profile__stat-count {

@@ -1,6 +1,6 @@
 package com.simbirsoft.practice.bookreviewsite.security.oauth;
 
-import com.simbirsoft.practice.bookreviewsite.entity.User;
+import com.simbirsoft.practice.bookreviewsite.security.details.CustomUser;
 import com.simbirsoft.practice.bookreviewsite.security.details.CustomUserDetails;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -25,9 +25,9 @@ public class CustomOAuth2User implements OAuth2User, Serializable, CustomUserDet
 
     private final OAuth2User oAuth2User;
     
-    private User user;
+    private CustomUser user;
 
-    public CustomOAuth2User(OAuth2User oAuth2User, User user) {
+    public CustomOAuth2User(OAuth2User oAuth2User, CustomUser user) {
         this.oAuth2User = oAuth2User;
         this.user = user;
     }
@@ -72,7 +72,7 @@ public class CustomOAuth2User implements OAuth2User, Serializable, CustomUserDet
     }
 
     @Override
-    public User getUser() {
+    public CustomUser getUser() {
         return user;
     }
 
@@ -102,7 +102,7 @@ public class CustomOAuth2User implements OAuth2User, Serializable, CustomUserDet
         return true;
     }
 
-    public void setUser(User user) {
+    public void setUser(CustomUser user) {
         this.user = user;
     }
 }

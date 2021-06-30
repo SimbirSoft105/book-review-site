@@ -16,6 +16,14 @@
         <meta name="format-detection" content="telephone=no">
         <meta name="description" content="">
 
+        <style>
+            .error {
+                color: red;
+                font-size: 13px;
+                margin-top: 18px;
+            }
+        </style>
+
         <title>${title}</title>
     </head>
     <body>
@@ -230,7 +238,7 @@
             <div class="header__inner">
                 <div class="menu__part">
                     <div class="logo">
-                        <img src="../static/images/header/logo-1x.png" alt="" class="logo__img">
+                        <img src="../static/images/header/logo.png" alt="" class="logo__img">
                     </div>
                     <button type="button" class="burger">
                         <svg class="menu-symbol">
@@ -258,6 +266,7 @@
                                 <#if user??>
                                     <a href="/profile" class="header__profile-item">Профиль</a>
                                     <a href="/book/my" class="header__profile-item">Мои загруженные книги </a>
+                                    <a href="/book/favorites" class="header__profile-item">Избранное</a>
                                     <a href="#" class="header__profile-item"> Мои рецензии</a>
                                     <a href="/logout" class="header__profile-item">Выйти</a>
                                 <#else>
@@ -299,10 +308,10 @@
                 </svg>
             </button>
             <ul class="nav">
-                <li class="nav__link"><a href="/" class="nav__link-item">Home</a></li>
-                <li class="nav__link"><a href="/book/all" class="nav__link-item">All films</a></li>
-                <li class="nav__link"><a href="/about" class="nav__link-item">About</a></li>
-                <li class="nav__link"><a href="/contact" class="nav__link-item">Contact</a></li>
+                <li class="nav__link"><a href="/" class="nav__link-item">Домашняя</a></li>
+                <li class="nav__link"><a href="/book/all" class="nav__link-item">Все книги</a></li>
+                <li class="nav__link"><a href="/about" class="nav__link-item">О нас</a></li>
+                <li class="nav__link"><a href="/contact" class="nav__link-item">Контакты</a></li>
             </ul>
         </div>
 

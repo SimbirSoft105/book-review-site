@@ -1,6 +1,7 @@
 package com.simbirsoft.practice.bookreviewsite.controller.prod;
 
 import com.simbirsoft.practice.bookreviewsite.dto.*;
+import com.simbirsoft.practice.bookreviewsite.entity.User;
 import com.simbirsoft.practice.bookreviewsite.enums.BookStatus;
 import com.simbirsoft.practice.bookreviewsite.security.details.CustomUserDetails;
 import com.simbirsoft.practice.bookreviewsite.service.BookService;
@@ -42,18 +43,15 @@ public class BooksController {
 
     private final ReviewsService reviewsService;
 
-    private final ModelMapper modelMapper;
 
     @Autowired
     public BooksController(BookService bookService, LanguageService languageService,
-                           CountryService countryService, ReviewsService reviewsService,
-                           ModelMapper modelMapper) {
+                           CountryService countryService, ReviewsService reviewsService) {
 
         this.bookService = bookService;
         this.languageService = languageService;
         this.countryService = countryService;
         this.reviewsService = reviewsService;
-        this.modelMapper = modelMapper;
     }
 
     @GetMapping("/all")
@@ -141,6 +139,6 @@ public class BooksController {
             @PathVariable("bookId") Long bookId) {
 
         return ResponseEntity.ok(reviewsService.addReview(reviewAdditionDTO,
-                userDetails.getUser(), bookId));
+                userDetails.getUser().getId(), bookId));
     }
 }
