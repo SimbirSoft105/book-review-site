@@ -6,10 +6,14 @@ import com.simbirsoft.practice.bookreviewsite.dto.ProfileEditForm;
 import com.simbirsoft.practice.bookreviewsite.dto.UserDTO;
 import com.simbirsoft.practice.bookreviewsite.entity.User;
 import com.simbirsoft.practice.bookreviewsite.repository.UsersRepository;
+import com.simbirsoft.practice.bookreviewsite.security.details.CustomUserDetails;
 import com.simbirsoft.practice.bookreviewsite.service.UsersService;
+import com.simbirsoft.practice.bookreviewsite.util.AuthRefreshUtil;
 import org.apache.commons.io.FileUtils;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -64,6 +68,15 @@ public class UsersServiceImpl implements UsersService {
         else newAvatar = userDTO.getAvatar();
 
         usersRepository.editProfile(newName, newEmail, newAvatar);
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
+        User user = userDetails.getUser();
+        user.setAvatar(newAvatar);
+        user.setName(newName);
+        user.setEmail(newEmail);
+
+        AuthRefreshUtil.refreshAuthentication(authentication);
     }
 
     @Override

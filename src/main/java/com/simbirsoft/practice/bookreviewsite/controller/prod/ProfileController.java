@@ -35,12 +35,9 @@ public class ProfileController {
     public String getProfilePage(@AuthenticationPrincipal CustomUserDetails userDetails,
                                  Model model) {
 
-        UserDTO user = usersService.getById(userDetails.getUser().getId());
-
-        model.addAttribute("user", user);
         model.addAttribute("title", "Профиль");
 
-        Long userId = user.getId();
+        Long userId = userDetails.getUser().getId();
         model.addAttribute("booksPushedCount", bookService.getBooksCountUserPushed(userId));
         model.addAttribute("reviewsWrittenCount", reviewsService.getReviewsCountUserWrote(userId));
 

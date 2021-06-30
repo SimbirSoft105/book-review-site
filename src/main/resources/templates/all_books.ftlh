@@ -120,12 +120,17 @@
                             <div class="films__number">
                                 <span class="films__count">${count}</span>
                             </div>
-                            <a href="#" class="film__photo">
-                                <img src="/images/allFilms/friend.webp" alt="" class="allfilm__img">
+                            <a href="/book/${books.id}" class="film__photo">
+                                <img
+                                        <#if books.cover??>
+                                            src="${books.cover}"
+                                        <#else>
+                                            src="/images/no_cover.ico"
+                                        </#if> alt="" class="allfilm__img">
                                 <span class="films__img-rating rateItem" title="${books.rate}">${books.rate}</span>
                             </a>
                             <div class="film__info-filter">
-                                <a href="#" class="film__info-left">
+                                <a href="/book/${books.id}" class="film__info-left">
                                     <p class="film__info-name">
                                         ${books.title}
                                     </p>
@@ -133,7 +138,7 @@
                                         ${books.title}, ${books.releaseYear}
                                     </p>
                                     <p class="film__info-metaInfo">
-                                        <span class="film__info-country">${books.country}</span>
+                                        <span class="film__info-country">${books.country.name}</span>
                                         <span class="film__info-genre">
                                     <#list books.categories as categories>
                                         ${categories.title}

@@ -1,16 +1,12 @@
 package com.simbirsoft.practice.bookreviewsite.service.impl;
 
-import com.simbirsoft.practice.bookreviewsite.dto.BookDTO;
-import com.simbirsoft.practice.bookreviewsite.dto.ReviewAdditionDTO;
-import com.simbirsoft.practice.bookreviewsite.dto.ReviewDTO;
-import com.simbirsoft.practice.bookreviewsite.dto.UserDTO;
+import com.simbirsoft.practice.bookreviewsite.dto.*;
 import com.simbirsoft.practice.bookreviewsite.entity.Book;
 import com.simbirsoft.practice.bookreviewsite.entity.Review;
 import com.simbirsoft.practice.bookreviewsite.entity.User;
 import com.simbirsoft.practice.bookreviewsite.exception.ResourceNotFoundException;
 import com.simbirsoft.practice.bookreviewsite.repository.BookRepository;
 import com.simbirsoft.practice.bookreviewsite.repository.ReviewsRepository;
-import com.simbirsoft.practice.bookreviewsite.repository.UsersRepository;
 import com.simbirsoft.practice.bookreviewsite.service.BookService;
 import com.simbirsoft.practice.bookreviewsite.service.ReviewsService;
 import org.modelmapper.ModelMapper;
@@ -25,15 +21,15 @@ public class ReviewsServiceImpl implements ReviewsService {
 
     private final ReviewsRepository reviewsRepository;
     private final BookRepository bookRepository;
-    private final UsersRepository usersRepository;
+    private final BookService bookService;
     private final ModelMapper modelMapper;
 
     public ReviewsServiceImpl(ReviewsRepository reviewsRepository, ModelMapper modelMapper,
-                              BookRepository bookRepository, UsersRepository usersRepository) {
+                              BookRepository bookRepository, BookService bookService) {
         this.reviewsRepository = reviewsRepository;
         this.modelMapper = modelMapper;
         this.bookRepository = bookRepository;
-        this.usersRepository = usersRepository;
+        this.bookService = bookService;
     }
 
     @Override
@@ -48,15 +44,14 @@ public class ReviewsServiceImpl implements ReviewsService {
     }
 
     @Override
-    public LocalDateTime addReview(ReviewAdditionDTO reviewAdditionDTO, UserDTO author, Long bookId) {
+    public ReviewAdditionReturnDTO addReview(ReviewAdditionDTO reviewAdditionDTO, User author, Long bookId) {
 
         Book book = bookRepository.findById(bookId).orElseThrow(() ->
                 new ResourceNotFoundException("Book not found"));
-        User user = usersRepository.getById(author.getId());
 
         Review review = Review.builder()
                 .book(book)
-                .author(user)
+                .author(author)
                 .mark(Integer.parseInt(reviewAdditionDTO.getMark()))
                 .text(reviewAdditionDTO.getText())
                 .createdAt(LocalDateTime.now())
@@ -64,10 +59,19 @@ public class ReviewsServiceImpl implements ReviewsService {
                     .build();
         reviewsRepository.save(review);
 
-        System.out.println("bookId: " + review.getBook().getId());
+        return ReviewAdditionReturnDTO.builder()
+                .id(review.getId())
+                .createdAt(review.getCreatedAt())
+                .rate(bookService.recalculateBookRate(bookId))
+                    .build();
 
-        return review.getCreatedAt();
+    }
 
+    @Override
+    public Long deleteById(Long id) {
+        Review review = reviewsRepository.getById(id);
+        reviewsRepository.delete(review);
+        return review.getBook().getId();
     }
 
 }

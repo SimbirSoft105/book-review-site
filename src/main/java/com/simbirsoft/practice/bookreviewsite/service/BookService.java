@@ -41,5 +41,5 @@ public interface BookService {
 
     boolean deleteUserFavoriteBook(Long bookId, Long userId);
 
-//    float recalculateBookRate(ReviewAdditionDTO reviewAdditionDTO, Long bookId);
+    float recalculateBookRate(Long bookId);
 }

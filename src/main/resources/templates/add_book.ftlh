@@ -13,7 +13,6 @@
                     <li class="add_book__info-group">
                         <label class="add_book__info-label">
                             Название:
-<#--                            <input type="text" name="title" class="add_book__info-field">-->
                             <@spring.formInput path="addBookForm.title" attributes="class='add_book__info-field' placeholder='Введите название книги'"/>
                             <@spring.showErrors separator="<br>" classOrStyle="error"/>
                         </label>
@@ -22,7 +21,6 @@
                     <li class="add_book__info-group">
                         <label class="add_book__info-label">
                             Автор:
-<#--                            <input type="text" name="author" class="add_book__info-field">-->
                             <@spring.formInput path="addBookForm.author" attributes="class='add_book__info-field' placeholder='Автор книги'"/>
                             <@spring.showErrors separator="<br>" classOrStyle="error"/>
                         </label>
@@ -31,7 +29,6 @@
                     <li class="add_book__info-group">
                         <label class="add_book__info-label">
                             Описание:
-<#--                            <input type="text" name="description" class="add_book__info-field">-->
                             <@spring.formInput path="addBookForm.description" attributes="class='add_book__info-field' placeholder='Описание'"/>
                             <@spring.showErrors separator="<br>" classOrStyle="error"/>
                         </label>
@@ -40,7 +37,6 @@
                     <li class="add_book__info-group">
                         <label class="add_book__info-label">
                             Год:
-<#--                            <input type="number" name="releaseYear" class="add_book__info-field">-->
                             <@spring.formInput path="addBookForm.releaseYear" attributes="class='add_book__info-field' placeholder='Год'"/>
                             <@spring.showErrors separator="<br>" classOrStyle="error"/>
                         </label>
