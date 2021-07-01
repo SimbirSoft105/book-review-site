@@ -61,7 +61,7 @@ public class UsersServiceImpl implements UsersService {
             }
         }
 
-        usersRepository.editProfile(newName, newEmail, newAvatar);
+//        usersRepository.editProfile(newName, newEmail, newAvatar);
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
@@ -75,8 +75,10 @@ public class UsersServiceImpl implements UsersService {
 
             user.setConfirmCode(UUID.randomUUID().toString());
 
-            usersRepository.makeUserNotConfirmed(user.getConfirmCode(), user.getUserStatus());
+//            usersRepository.makeUserNotConfirmed(user.getConfirmCode(), user.getUserStatus());
         }
+
+        usersRepository.save(modelMapper.map(user, User.class));
 
         AuthRefreshUtil.refreshAuthentication(authentication);
 
