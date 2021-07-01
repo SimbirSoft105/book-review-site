@@ -31,7 +31,7 @@ public class AdminController {
         this.bookService = bookService;
     }
 
-    @RolesAllowed("ADMIN")
+    @RolesAllowed("ROLE_ADMIN")
     @GetMapping("/moderation")
     public String getBooksToModeration(Pageable pageable, Model model) {
         Page<BookDTO> books = bookService.getAllByBookStatus(pageable, BookStatus.MODERATION);

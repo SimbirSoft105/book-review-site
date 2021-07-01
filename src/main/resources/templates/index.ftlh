@@ -48,8 +48,8 @@
     <section class="new__movies">
         <div class="new__movies-inner">
             <div class="new__movies-header">
-                <h2 class="new__movies-title">ОТКРОЙТЕ НОВЫЕ ФИЛЬМЫ</h2>
-                <p class="new__movies-subtitle">Время найти новинки для твоего кинотеатра</p>
+                <h2 class="new__movies-title">ОТКРОЙТЕ НОВЫЕ КНИГИ</h2>
+                <p class="new__movies-subtitle">Время найти новинки для чтения</p>
             </div>
             <div class="new__movies-body">
                 <#if freshBooks?? && freshBooks.content??>
@@ -65,7 +65,6 @@
 
                                 </a>
                                 <a href="/book/${freshBook.id}" class="new__movies-name">${freshBook.title}</a>
-                                <div class="new__movies-genre">${freshBook.description}</div>
                             </div>
                         </#list>
                     </div>

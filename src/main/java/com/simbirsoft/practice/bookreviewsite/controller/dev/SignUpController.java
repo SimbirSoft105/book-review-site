@@ -45,7 +45,7 @@ public class SignUpController {
             return "signUp";
         }
         else {
-            signUpService.devSignUpWithRole(signUpForm, Role.USER);
+            signUpService.devSignUpWithRole(signUpForm, Role.ROLE_USER);
         } return "redirect:login";
     }
 

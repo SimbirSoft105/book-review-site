@@ -39,11 +39,15 @@
                                         <#list book.categories as category>${category.title}<#sep>, </#list>
                                     </span>
                                 </p>
+                            </a>
+                            <div class="film__info-right">
                                 <form action="/book/delete/${book.id}" method="post" class="prof__films-delete">
                                     <button type="submit" class="btn__delete-films">Удалить книгу</button>
                                 </form>
-                            </a>
-                            <div class="film__info-right"></div>
+                                <form action="/book/delete/${book.id}" method="post" class="prof__films-delete">
+                                    <button type="submit" class="btn__delete-films">Удалить книгу</button>
+                                </form>
+                            </div>
                         </div>
                     </div>
                 </#list>
