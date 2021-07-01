@@ -4,6 +4,7 @@ import com.simbirsoft.practice.bookreviewsite.entity.Category;
 import com.simbirsoft.practice.bookreviewsite.entity.Country;
 import com.simbirsoft.practice.bookreviewsite.entity.Language;
 import com.simbirsoft.practice.bookreviewsite.validation.annotation.ValidYear;
+import lombok.Builder;
 import lombok.Data;
 import org.hibernate.validator.constraints.Length;
 import org.springframework.web.multipart.MultipartFile;
@@ -19,6 +20,7 @@ import java.util.Set;
  */
 
 @Data
+@Builder
 public class AddBookForm {
     @NotBlank
     @Length(max = 100)
