@@ -22,8 +22,6 @@ public interface BookService {
 
     Page<BookDTO> getAllByBookStatusAndTitle(Pageable pageable, BookStatus bookStatus, String title);
 
-    Page<BookDTO> getTopByBookStatus(Pageable pageable, BookStatus bookStatus);
-
     Page<BookDTO> getAllByBookStatusAndSortByReviews(Pageable pageable, BookStatus bookStatus);
 
     int getBooksCountUserPushed(Long userId);
@@ -49,4 +47,8 @@ public interface BookService {
     float recalculateBookRate(Long bookId);
 
     boolean addBookToFavorite(Long bookId, Long userId);
+
+    void acceptBookModeration(Long bookId);
+
+    void rejectBookModeration(Long bookId, String response);
 }

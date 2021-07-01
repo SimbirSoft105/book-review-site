@@ -6,7 +6,7 @@
         <div class="contact--title-inner">
             <div class="contact__inner-title">Все книги</div>
             <div class="contact__inner-subtitle">
-                <a href="#">Домашняя</a>
+                <a href="/">Домашняя</a>
                 <div class="contact__line">/</div>
                 <div>Все книги</div>
             </div>

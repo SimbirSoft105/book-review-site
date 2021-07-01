@@ -78,7 +78,7 @@ class SignUpServiceImplTest {
                 .verifyPassword("qwerty008")
                     .build();
 
-        UserStatus userStatus = signUpService.devSignUpWithRole(signUpForm, Role.USER);
+        UserStatus userStatus = signUpService.devSignUpWithRole(signUpForm, Role.ROLE_USER);
         assertEquals(UserStatus.CONFIRMED, userStatus);
     }
 
@@ -92,7 +92,7 @@ class SignUpServiceImplTest {
                 .verifyPassword("qwerty008")
                 .build();
 
-        UserDTO userDTO = signUpService.prodSignUpWithRole(signUpForm, Role.USER);
+        UserDTO userDTO = signUpService.prodSignUpWithRole(signUpForm, Role.ROLE_USER);
         assertEquals(UserStatus.NOT_CONFIRMED, userDTO.getUserStatus());
     }
 }

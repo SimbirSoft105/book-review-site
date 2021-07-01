@@ -176,7 +176,7 @@
                                 </div>
                             </div>
                             <div class="comment__footer">
-                                <#if review.author.id == user.id>
+                                <#if user?? && review.author.id == user.id>
                                     <a onclick="deleteReview(${review.id})" href="#" class="answer__btn">Удалить</a>
                                 </#if>
                                 <div class="comment__date">${review.createdAt}</div>

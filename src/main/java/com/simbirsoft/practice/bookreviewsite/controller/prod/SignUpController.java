@@ -4,11 +4,9 @@ import com.simbirsoft.practice.bookreviewsite.dto.SignUpForm;
 import com.simbirsoft.practice.bookreviewsite.dto.UserDTO;
 import com.simbirsoft.practice.bookreviewsite.enums.Role;
 import com.simbirsoft.practice.bookreviewsite.exception.UserNotFoundException;
-import com.simbirsoft.practice.bookreviewsite.security.details.CustomUserDetails;
 import com.simbirsoft.practice.bookreviewsite.service.SignUpService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -48,7 +46,7 @@ public class SignUpController {
             return "signUp";
         }
         else {
-            UserDTO userDTO = signUpService.prodSignUpWithRole(signUpForm, Role.USER);
+            UserDTO userDTO = signUpService.prodSignUpWithRole(signUpForm, Role.ROLE_USER);
             signUpService.sendConfirmEmailToUser(userDTO);
             return "redirect:/signUp/registration_confirm_email";
         }
