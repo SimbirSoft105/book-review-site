@@ -21,8 +21,6 @@ public interface BookService {
 
     Page<BookDTO> getAllByBookStatusAndTitle(Pageable pageable, BookStatus bookStatus, String title);
 
-    Page<BookDTO> getTopByBookStatus(Pageable pageable, BookStatus bookStatus);
-
     Page<BookDTO> getAllByBookStatusAndSortByReviews(Pageable pageable, BookStatus bookStatus);
 
     int getBooksCountUserPushed(Long userId);
