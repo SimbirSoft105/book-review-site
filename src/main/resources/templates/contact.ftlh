@@ -15,7 +15,7 @@
 
     <section class="contacts">
         <div class="contacts__inner">
-            <h2 class="contact__title new__movies-title">GET IN TOUCH</h2>
+            <h2 class="contact__title new__movies-title">СВЯЖИТЕСЬ С НАМИ</h2>
             <div class="contacts__left">
                 <p class="contacts__text">Ut enim ad minim veniam, quis nostrud exercitation ullamco nisi ut aliquip ex ea
                     commodo consequat. Duis aute

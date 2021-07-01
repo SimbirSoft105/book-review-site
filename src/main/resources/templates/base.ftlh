@@ -267,7 +267,7 @@
                                     <a href="/profile" class="header__profile-item">Профиль</a>
                                     <a href="/book/my" class="header__profile-item">Мои загруженные книги </a>
                                     <a href="/book/favorites" class="header__profile-item">Избранное</a>
-                                    <a href="#" class="header__profile-item"> Мои рецензии</a>
+                                    <a href="/reviews/my" class="header__profile-item"> Мои рецензии</a>
                                     <a href="/logout" class="header__profile-item">Выйти</a>
                                 <#else>
                                     <a href="/login_or_sign_up" class="header__profile-item">Войти</a>
