@@ -86,11 +86,6 @@
 <div class="wrapper">
     <div class="letter-content">
 
-        <div class="picture">
-            <img class="picture-img" src=
-            "https://download.logo.wine/logo/Trello/Trello-Logo.wine.png" alt="">
-        </div>
-
         <div class="email__text">
             Здравствуйте, ${name}
         </div>

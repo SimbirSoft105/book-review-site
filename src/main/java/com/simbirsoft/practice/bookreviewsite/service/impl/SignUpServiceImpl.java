@@ -35,8 +35,6 @@ public class SignUpServiceImpl implements SignUpService {
 
     private final ConfirmMailGenerator confirmMailGenerator;
 
-    private final UserDetailsService userDetailsService;
-
     private final ModelMapper modelMapper;
 
     @Value("${spring.profiles.active}")
@@ -53,7 +51,6 @@ public class SignUpServiceImpl implements SignUpService {
         this.passwordEncoder = passwordEncoder;
         this.emailSendingService = emailSendingService;
         this.confirmMailGenerator = confirmMailGenerator;
-        this.userDetailsService = userDetailsService;
         this.modelMapper = modelMapper;
     }
 
