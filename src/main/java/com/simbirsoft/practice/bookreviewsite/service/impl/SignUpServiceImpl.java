@@ -113,13 +113,11 @@ public class SignUpServiceImpl implements SignUpService {
 
     @Override
     public void sendConfirmEmailToUser(UserDTO userDTO) {
-
-        System.out.println("new code: " + userDTO.getConfirmCode());
-
         String letter = confirmMailGenerator.generateConfirmMail(
                 userDTO.getConfirmCode(),
                 userDTO.getName()
         );
+
         emailSendingService.sendEmail(userDTO.getEmail(), letter,
                 "Подтверждение email");
     }

@@ -49,4 +49,8 @@ public interface BookService {
     float recalculateBookRate(Long bookId);
 
     boolean addBookToFavorite(Long bookId, Long userId);
+
+    void acceptBookModeration(Long bookId);
+
+    void rejectBookModeration(Long bookId, String response);
 }

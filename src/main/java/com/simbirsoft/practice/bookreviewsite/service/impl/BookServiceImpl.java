@@ -48,10 +48,14 @@ public class BookServiceImpl implements BookService {
 
     private final ReviewsRepository reviewsRepository;
 
+    private final EmailSendingServiceImpl emailSendingService;
+
+
     @Autowired
     public BookServiceImpl(BookRepository bookRepository, CategoryRepository categoryRepository,
                            ModelMapper modelMapper, UsersRepository usersRepository,
-                           MediaFileUtils imageUploadUtils, ReviewsRepository reviewsRepository) {
+                           MediaFileUtils imageUploadUtils, ReviewsRepository reviewsRepository,
+                           EmailSendingServiceImpl emailSendingService) {
 
         this.bookRepository = bookRepository;
         this.categoryRepository = categoryRepository;
@@ -59,6 +63,7 @@ public class BookServiceImpl implements BookService {
         this.usersRepository = usersRepository;
         this.mediaFileUtils = imageUploadUtils;
         this.reviewsRepository = reviewsRepository;
+        this.emailSendingService = emailSendingService;
     }
 
     @Override
@@ -225,6 +230,39 @@ public class BookServiceImpl implements BookService {
         }
 
         return false;
+    }
+
+    @Override
+    public void acceptBookModeration(Long bookId) {
+        Book book = bookRepository.findById(bookId)
+                .orElseThrow(() -> new ResourceNotFoundException("Book not found"));
+
+        book.setBookStatus(BookStatus.PUBLIC);
+
+        bookRepository.save(book);
+
+        emailSendingService.sendEmail(
+                book.getPushedBy().getEmail(),
+                "Поздравляем ваша книга прошла модерацию, " +
+                        "теперь она доступна всем пользователям на сайте",
+                "Книга " + book.getTitle() + " успешно размещена на сайте"
+                );
+    }
+
+    @Override
+    public void rejectBookModeration(Long bookId, String response) {
+        Book book = bookRepository.findById(bookId)
+                .orElseThrow(() -> new ResourceNotFoundException("Book not found"));
+
+        book.setBookStatus(BookStatus.REJECTED);
+
+        bookRepository.save(book);
+
+        emailSendingService.sendEmail(
+                book.getPushedBy().getEmail(),
+                "К сожалению ваша книга не прошла модерацию, по причине:\n " + response,
+                "Книга " + book.getTitle() + " не прошла модерацию"
+        );
     }
 
     @Override
