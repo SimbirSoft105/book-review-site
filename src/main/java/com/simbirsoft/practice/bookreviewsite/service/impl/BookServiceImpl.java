@@ -184,11 +184,6 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public Page<BookDTO> getTopByBookStatus(Pageable pageable, BookStatus bookStatus) {
-        return bookRepository.findAllByBookStatus(pageable, bookStatus).map(book -> modelMapper.map(book, BookDTO.class));
-    }
-
-    @Override
     public BookDTO getById(Long id) {
 
         Book book = bookRepository.findById(id).orElseThrow(() ->
