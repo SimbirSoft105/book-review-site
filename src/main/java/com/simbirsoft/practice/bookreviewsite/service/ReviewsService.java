@@ -17,4 +17,6 @@ public interface ReviewsService {
 
     Long deleteById(Long id);
 
+    Page<ReviewDTO> getAllByUserId(Long userId, Pageable pageable);
+
 }
