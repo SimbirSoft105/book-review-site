@@ -30,7 +30,12 @@ public class HomeController {
 
     @GetMapping("/")
     public String getHomePage(Model model) {
-        BookDTO firstBook = bookService.getFirstByBookStatus(BookStatus.PUBLIC);
+        BookDTO firstBook;
+        try {
+            firstBook = bookService.getFirstByBookStatus(BookStatus.PUBLIC);
+        } catch (IllegalArgumentException e) {
+            firstBook = null;
+        }
 
         Pageable pageableForTopBooks = PageRequest.of(0, 4, Sort.Direction.DESC, "rate");
         Page<BookDTO> topBooks = bookService.getTopByBookStatus(pageableForTopBooks, BookStatus.PUBLIC);
