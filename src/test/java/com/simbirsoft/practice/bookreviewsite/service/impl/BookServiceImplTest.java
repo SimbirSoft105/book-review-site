@@ -360,30 +360,38 @@ public class BookServiceImplTest {
         void on_positive_range_return_page_of_BookDTO() {
             Pageable pageableForTopBooks = PageRequest.of(0, 2);
 
-            List<Review> listReviewsForBook1 = List.of(
+            Set<Review> setReviewsForBook1 = new HashSet<>();
+
+            setReviewsForBook1.add(
                     Review.builder()
-                            .id(1L)
-                            .book(book1)
-                            .build(),
+                    .id(1L)
+                    .book(book1)
+                    .build()
+            );
+
+            setReviewsForBook1.add(
                     Review.builder()
                             .id(2L).book(book1)
-                            .build(),
+                            .build()
+            );
+
+            setReviewsForBook1.add(
                     Review.builder()
                             .id(3L)
                             .book(book1)
-                            .build());
-
-            Set<Review> setReviewsForBook1 = Set.copyOf(listReviewsForBook1);
+                            .build()
+            );
 
             book1.setReviews(setReviewsForBook1);
 
-            List<Review> listReviewsForBook2 = List.of(
+            Set<Review> setReviewsForBook2 = new HashSet<>();
+
+            setReviewsForBook2.add(
                     Review.builder()
                             .id(4L)
                             .book(book2)
-                            .build());
-
-            Set<Review> setReviewsForBook2 = Set.copyOf(listReviewsForBook2);
+                            .build()
+            );
 
             book2.setReviews(setReviewsForBook2);
 
