@@ -31,13 +31,10 @@ import java.util.concurrent.Executors;
 @EntityScan(basePackages = "com.simbirsoft.practice.bookreviewsite.entity")
 @ComponentScan(basePackages = "com.simbirsoft.practice.bookreviewsite")
 @EnableJpaRepositories(basePackages = "com.simbirsoft.practice.bookreviewsite.repository")
-public class WebAppConfiguration implements WebMvcConfigurer {
+public class WebAppConfiguration {
 
     @Autowired
     private Environment environment;
-
-    @Autowired
-    private PastUserInTemplateInterceptor userInTemplateInterceptor;
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -47,6 +44,11 @@ public class WebAppConfiguration implements WebMvcConfigurer {
     @Bean
     public ExecutorService executorService() {
         return Executors.newCachedThreadPool();
+    }
+
+    @Bean
+    public ModelMapper modelMapper() {
+        return new ModelMapper();
     }
 
     @Bean
@@ -61,15 +63,5 @@ public class WebAppConfiguration implements WebMvcConfigurer {
 
         return new Cloudinary(cloudinaryConfig);
 
-    }
-
-    @Bean
-    public ModelMapper modelMapper() {
-        return new ModelMapper();
-    }
-
-    @Override
-    public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(userInTemplateInterceptor);
     }
 }
