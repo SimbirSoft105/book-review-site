@@ -11,6 +11,11 @@
             <@spring.bind "editForm"/>
             <form class="add_book__body" method="post" enctype="multipart/form-data">
                 <div class="profile__photo">
+                    <#if user.avatar??>
+                        <img id="image" src="${user.avatar}" alt="" class="profile__img">
+                    <#else>
+                        <img id="image" src="/images/no_avatar.jpg" alt="" class="profile__img">
+                    </#if>
                     <input type="file" name="avatar" onchange="onFileSelected(event)" placeholder="Выбрать фото" class="redact__photo">
                 </div>
                 <ul class="add_book__info add_book__info-group--change">
