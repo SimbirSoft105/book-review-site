@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Смена почты</title>
     <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
@@ -200,7 +200,7 @@
 <section class="login__section">
     <header class="login__header">
         <div class="logo__login">
-            <h2 class="logo__header__text">Trello</h2>
+            <h2 class="logo__header__text">MYBOOK</h2>
         </div>
     </header>
     <div class="login__content">

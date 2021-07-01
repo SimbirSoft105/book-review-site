@@ -56,7 +56,13 @@ public class AdminController {
     public String acceptBook(@PathVariable Long id) {
         bookService.acceptBookModeration(id);
 
-        return "redirect:/moderation";
+        return "redirect:/admin/moderation";
+    }
+
+    @RolesAllowed("ADMIN")
+    @GetMapping("/moderation/reject/{id}")
+    public String getRejectForm(@PathVariable Long id) {
+        return "send_moderation_response";
     }
 
     @RolesAllowed("ADMIN")
@@ -64,6 +70,6 @@ public class AdminController {
     public String rejectBook(@PathVariable Long id, AdminRejectForm adminRejectForm) {
         bookService.rejectBookModeration(id, adminRejectForm.getResponse());
 
-        return "redirect:/moderation";
+        return "redirect:/admin/moderation";
     }
 }

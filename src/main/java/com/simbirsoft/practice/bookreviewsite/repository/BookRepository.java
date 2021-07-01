@@ -31,14 +31,13 @@ public interface BookRepository extends JpaRepository<Book, Long> {
 
     int countBookByLikedUsersContaining(User user);
 
-    Page<Book> findAllByPushedById(Pageable pageable, Long userId);
+    Page<Book> findAllByPushedByIdAndBookStatus(Pageable pageable, Long userId, BookStatus status);
 
     Optional<Book> findFirstByBookStatusOrderById(BookStatus bookStatus);
 
     Page<Book> findAllByLikedUsersIsContaining(Pageable pageable, User user);
 
-    @Query("select b from Book b LEFT JOIN Review r on b.id = r.book.id and b.bookStatus = :bookStatus group by b.id order by count(r.id) desc")
-    Page<Book> findAllByBookStatusWithSortByReview(Pageable pageable, BookStatus bookStatus);
+    Page<Book> findAllByBookStatusOrderByReviews(Pageable pageable, BookStatus bookStatus);
 
     @Modifying
     @Transactional

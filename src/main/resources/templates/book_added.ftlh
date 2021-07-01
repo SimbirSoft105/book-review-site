@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Почта подтверждена</title>
+    <title>Книга добавлена</title>
     <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
@@ -206,15 +206,11 @@
     <div class="login__content">
         <form class="login__form">
             <div class="login__form--title">
-                <span class="confirm__title">Почта успешно потдверждена!</span>
+                <span class="confirm__title">Книга успешно добавлена!</span>
 
-                <#if user??>
-                    <a href="/" class="confirm__btn">На главную</a>
-                <#else>
-                    <p class="confirm__text">Теперь вы можете войти в свой аккаунт</p>
-                    <a href="/login" class="confirm__btn">Войти</a>
-                </#if>
+                <p class="confirm__text">Пожалуйста подождите пока книга проходит модерацию</p>
 
+                <a href="/" class="confirm__btn">На главную</a>
             </div>
         </form>
     </div>
