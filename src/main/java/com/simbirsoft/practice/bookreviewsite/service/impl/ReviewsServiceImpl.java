@@ -87,4 +87,10 @@ public class ReviewsServiceImpl implements ReviewsService {
         return review.getBook().getId();
     }
 
+    @Override
+    public Page<ReviewDTO> getAllByUserId(Long userId, Pageable pageable) {
+        return reviewsRepository.getAllByAuthorId(userId, pageable)
+                .map(review -> modelMapper.map(review, ReviewDTO.class));
+    }
+
 }
