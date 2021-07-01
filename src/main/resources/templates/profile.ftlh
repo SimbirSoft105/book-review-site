@@ -36,7 +36,7 @@
                     <div class="profile__stat-count">${favoriteBooksCount}</div>
                     <div class="profile__stat-name">Книг в избранном</div>
                 </a>
-                <a href="#" class="profile__stat-item">
+                <a href="/reviews/my" class="profile__stat-item">
                     <div class="profile__stat-count">${reviewsWrittenCount}</div>
                     <div class="profile__stat-name">Рецензий</div>
                 </a>

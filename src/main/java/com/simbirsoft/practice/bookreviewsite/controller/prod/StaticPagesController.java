@@ -26,4 +26,9 @@ public class StaticPagesController {
     public String contactPage() {
         return "contact";
     }
+
+    @GetMapping("/book/added")
+    public String bookAdded() {
+        return "book_added";
+    }
 }

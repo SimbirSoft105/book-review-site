@@ -101,7 +101,7 @@ public class BooksController {
 
         bookService.createNewBook(addBookForm, userDetails.getUser().getId());
 
-        return "redirect:/book/my";
+        return "redirect:/book/added";
     }
 
     @GetMapping("{bookId}")

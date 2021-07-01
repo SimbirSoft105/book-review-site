@@ -409,12 +409,12 @@ public class BookServiceImplTest {
 
             Page<BookDTO> bookDTOsPageForTopBooks = new PageImpl(bookDTOsForTopBooks, pageableForTopBooks, books.size());
 
-            Mockito.when(bookRepository.findAllByBookStatusWithSortByReview(pageableForTopBooks, BookStatus.PUBLIC)).thenReturn(booksPageForTopBooks);
+            Mockito.when(bookRepository.findAllByBookStatusOrderByReviews(pageableForTopBooks, BookStatus.PUBLIC)).thenReturn(booksPageForTopBooks);
 
             assertNotNull(bookService.getAllByBookStatusAndSortByReviews(pageableForTopBooks, BookStatus.PUBLIC));
             assertEquals(bookDTOsPageForTopBooks, bookService.getAllByBookStatusAndSortByReviews(pageableForTopBooks, BookStatus.PUBLIC));
 
-            Mockito.verify(bookRepository, times(2)).findAllByBookStatusWithSortByReview(pageableForTopBooks, BookStatus.PUBLIC);
+            Mockito.verify(bookRepository, times(2)).findAllByBookStatusOrderByReviews(pageableForTopBooks, BookStatus.PUBLIC);
             Mockito.verify(modelMapper, times(2)).map(book1, BookDTO.class);
             Mockito.verify(modelMapper, times(2)).map(book2, BookDTO.class);
         }
@@ -431,11 +431,11 @@ public class BookServiceImplTest {
 
             Page<BookDTO> bookDTOsPageForTopBooks = new PageImpl(bookDTOs, pageableForTopBooks, books.size());
 
-            Mockito.when(bookRepository.findAllByBookStatusWithSortByReview(pageableForTopBooks, BookStatus.PUBLIC)).thenReturn(booksPageForTopBooks);
+            Mockito.when(bookRepository.findAllByBookStatusOrderByReviews(pageableForTopBooks, BookStatus.PUBLIC)).thenReturn(booksPageForTopBooks);
 
             assertEquals(bookDTOsPageForTopBooks, bookService.getAllByBookStatusAndSortByReviews(pageableForTopBooks, BookStatus.PUBLIC));
 
-            Mockito.verify(bookRepository, times(1)).findAllByBookStatusWithSortByReview(pageableForTopBooks, BookStatus.PUBLIC);
+            Mockito.verify(bookRepository, times(1)).findAllByBookStatusOrderByReviews(pageableForTopBooks, BookStatus.PUBLIC);
             Mockito.verify(modelMapper, times(0)).map(book1, BookDTO.class);
             Mockito.verify(modelMapper, times(0)).map(book2, BookDTO.class);
         }

@@ -14,17 +14,15 @@
                         <div class="films__number">
                             <span class="films__count">${book?counter}</span>
                         </div>
-                        <a href="/book/${book.id}" class="film__photo">
+                        <a class="film__photo">
                             <#if book.cover??>
                                 <img src="${book.cover}" alt="" class="allfilm__img">
                             <#else>
                                 <img src="/images/default_cover.png" alt="" class="allfilm__img">
                             </#if>
-                            
-                            <span class="films__img-rating" title="${book.rate}">${book.rate}</span>
                         </a>
                         <div class="film__info-filter">
-                            <a href="/book/${book.id}" class="film__info-left">
+                            <a class="film__info-left">
                                 <p class="film__info-name">
                                     ${book.title}
                                 </p>
@@ -41,12 +39,13 @@
                                 </p>
                             </a>
                             <div class="film__info-right">
-                                <form action="/book/delete/${book.id}" method="post" class="prof__films-delete">
-                                    <button type="submit" class="btn__delete-films">Удалить книгу</button>
+                                <form action="/admin/moderation/accept/${book.id}" method="post"
+                                      class="prof__films-delete">
+                                    <button type="submit" class="btn__moderation moderation_accept">Принять</button>
                                 </form>
-                                <form action="/book/delete/${book.id}" method="post" class="prof__films-delete">
-                                    <button type="submit" class="btn__delete-films">Удалить книгу</button>
-                                </form>
+
+                                <a href="/admin/moderation/reject/${book.id}"
+                                   class="btn__moderation moderation_reject">Отклонить</a>
                             </div>
                         </div>
                     </div>

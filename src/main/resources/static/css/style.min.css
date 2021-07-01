@@ -1495,6 +1495,17 @@ html, body {
   .answer__btn:hover {
     color: white; }
 
+.answer__btn__ {
+  text-decoration: none;
+  color: #737373;
+  font-size: 15px;
+  margin-right: 15px;
+}
+
+.answer__btn__:hover {
+  color: black;
+}
+
 .comment__date {
   font-size: 15px;
   color: #737373; }
@@ -2284,4 +2295,31 @@ html, body {
 
 .floating-button:hover {
   cursor: pointer;
+}
+
+.film__info-right {
+  display: flex;
+  align-items: center;
+}
+
+.btn__moderation {
+  display: block;
+  border: none;
+  background: none;
+
+  text-decoration: none;
+  padding: 10px 15px;
+  border-radius: 20px;
+  margin: 0 5px;
+  font-size: 13px;
+  color: black;
+  cursor: pointer;
+}
+
+.moderation_accept {
+  background-color: #aaffaa;
+}
+
+.moderation_reject {
+  background-color: #ff6767;
 }

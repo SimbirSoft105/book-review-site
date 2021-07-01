@@ -80,7 +80,7 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public Page<BookDTO> getAllByBookStatusAndSortByReviews(Pageable pageable, BookStatus bookStatus) {
-        return bookRepository.findAllByBookStatusWithSortByReview(pageable, bookStatus).map(book -> modelMapper.map(book, BookDTO.class));
+        return bookRepository.findAllByBookStatusOrderByReviews(pageable, bookStatus).map(book -> modelMapper.map(book, BookDTO.class));
     }
 
     @Override
@@ -111,7 +111,7 @@ public class BookServiceImpl implements BookService {
         Book book = modelMapper.map(addBookForm, Book.class);
 
         book.setPushedBy(user);
-        book.setBookStatus(BookStatus.PUBLIC); //TODO set moderation
+        book.setBookStatus(BookStatus.MODERATION);
 
         MultipartFile multipart = addBookForm.getCover();
 
@@ -136,7 +136,7 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public Page<BookDTO> getAllUserBooks(Pageable pageable, Long userId) {
-        return bookRepository.findAllByPushedById(pageable, userId)
+        return bookRepository.findAllByPushedByIdAndBookStatus(pageable, userId, BookStatus.PUBLIC)
                 .map(book -> modelMapper.map(book, BookDTO.class));
     }
 
