@@ -1,7 +1,5 @@
 package com.simbirsoft.practice.bookreviewsite.service.impl;
 
-import com.cloudinary.Cloudinary;
-import com.cloudinary.utils.ObjectUtils;
 import com.simbirsoft.practice.bookreviewsite.dto.AddBookForm;
 import com.simbirsoft.practice.bookreviewsite.dto.BookDTO;
 import com.simbirsoft.practice.bookreviewsite.entity.Book;
@@ -12,7 +10,9 @@ import com.simbirsoft.practice.bookreviewsite.exception.ResourceNotFoundExceptio
 import com.simbirsoft.practice.bookreviewsite.exception.UserNotFoundException;
 import com.simbirsoft.practice.bookreviewsite.repository.BookRepository;
 import com.simbirsoft.practice.bookreviewsite.repository.CategoryRepository;
+import com.simbirsoft.practice.bookreviewsite.repository.ReviewsRepository;
 import com.simbirsoft.practice.bookreviewsite.repository.UsersRepository;
+import com.simbirsoft.practice.bookreviewsite.util.MediaFileUtils;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
@@ -26,7 +26,6 @@ import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.*;
 
@@ -58,7 +57,13 @@ public class BookServiceImplTest {
     private ModelMapper modelMapper;
 
     @MockBean
-    private Cloudinary cloudinary;
+    private MediaFileUtils mediaFileUtils;
+
+    @MockBean
+    private ReviewsRepository reviewsRepository;
+
+    @MockBean
+    private EmailSendingServiceImpl emailSendingService;
 
     @DisplayName("getById() is working")
     @Nested
@@ -111,7 +116,6 @@ public class BookServiceImplTest {
 
         Long userId = 1L;
 
-        @Disabled
         @Test
         void on_positive_data_return_BookDTO() throws IOException {
 
@@ -125,12 +129,10 @@ public class BookServiceImplTest {
                     .build();
             when(modelMapper.map(form, Book.class)).thenReturn(book);
 
-            File fileToUpload = new File(Objects.requireNonNull(form.getCover().getOriginalFilename()));
+            when(mediaFileUtils.uploadFile(form.getCover().getOriginalFilename(), form.getCover().getBytes())).thenReturn("/newUrl");
 
-            when(cloudinary.uploader().upload(fileToUpload, ObjectUtils.emptyMap())).thenReturn(new HashMap<String, String>() {{
-                put("url", "/newUrl");
-            }});
             book.setCover("/newUrl");
+
             when(bookRepository.save(book)).thenReturn(book);
             when(modelMapper.map(book, BookDTO.class)).thenReturn(
                     BookDTO.builder()
@@ -138,7 +140,15 @@ public class BookServiceImplTest {
                             .cover(book.getCover())
                             .build()
             );
-            assertNotNull(bookService.createNewBook(form, userId));
+
+            BookDTO bookDTO = bookService.createNewBook(form, userId);
+
+            assertNotNull(bookDTO);
+            assertEquals(BookDTO.builder().title(form.getTitle()).cover("/newUrl")
+                    .build(), bookDTO);
+
+            Mockito.verify(usersRepository, times(1)).findById(userId);
+            Mockito.verify(bookRepository, times(1)).save(book);
         }
 
         @Test
