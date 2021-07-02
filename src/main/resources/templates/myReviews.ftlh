@@ -52,7 +52,7 @@
                         </div>
                         <div class="comment__footer">
                             <a href="/reviews/${review.id}/delete" class="answer__btn__">Удалить</a>
-                            <div class="comment__date">${review.createdAt?date}</div>
+                            <div class="comment__date">${review.createdAt}</div>
                         </div>
                     </div>
                 </#list>

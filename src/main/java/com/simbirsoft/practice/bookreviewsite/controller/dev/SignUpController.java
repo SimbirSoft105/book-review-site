@@ -46,7 +46,7 @@ public class SignUpController {
         }
         else {
             signUpService.devSignUpWithRole(signUpForm, Role.ROLE_USER);
-        } return "redirect:login";
+        } return "redirect:/login";
     }
 
     @GetMapping("profileEditConfirmEmail")
@@ -60,5 +60,10 @@ public class SignUpController {
 
         signUpService.confirmUserByConfirmCode(confirmCode);
         return "email_confirmed";
+    }
+
+    @GetMapping("registration_confirm_email")
+    public String getEmailConfirmationPage() {
+        return "confirm_email";
     }
 }

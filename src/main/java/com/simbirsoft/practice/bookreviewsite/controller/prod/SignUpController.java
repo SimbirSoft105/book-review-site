@@ -57,6 +57,11 @@ public class SignUpController {
         return "confirm_email";
     }
 
+    @GetMapping("profileEditConfirmEmail")
+    public String confirmChangedEmail() {
+        return "email_changed_confirm_email";
+    }
+
     @GetMapping("confirm_email/{confirm_code}")
     public String confirmEmail(@PathVariable("confirm_code") String confirmCode)
             throws UserNotFoundException {

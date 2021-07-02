@@ -27,7 +27,7 @@ public class UserConfirmedFilter extends OncePerRequestFilter {
 
         if (!authorities.contains("CONFIRMED")) {
             httpServletResponse.sendRedirect(httpServletRequest.getContextPath() +
-                    "/signUp/confirm_email");
+                    "/signUp/registration_confirm_email");
         }
 
         filterChain.doFilter(httpServletRequest, httpServletResponse);
