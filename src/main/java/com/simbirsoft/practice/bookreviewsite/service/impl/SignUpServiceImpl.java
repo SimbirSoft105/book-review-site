@@ -81,7 +81,8 @@ public class SignUpServiceImpl implements SignUpService {
                 .confirmCode(UUID.randomUUID().toString())
                 .userStatus(UserStatus.NOT_CONFIRMED)
                     .build();
-        usersRepository.save(user);
+
+        user = usersRepository.save(user);
 
         return modelMapper.map(user, UserDTO.class);
     }
