@@ -23,6 +23,7 @@ public class EmailSendingServiceImpl implements EmailSendingService {
 
     @Override
     public void sendEmail(String to, String letter, String subject) {
+
         executorService.execute(() -> javaMailSender.send(mimeMessage -> {
             MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage);
             mimeMessageHelper.setFrom(from);
@@ -32,5 +33,4 @@ public class EmailSendingServiceImpl implements EmailSendingService {
         }));
 
     }
-
 }

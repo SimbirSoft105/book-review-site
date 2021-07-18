@@ -13,6 +13,7 @@ import com.simbirsoft.practice.bookreviewsite.util.AuthRefreshUtil;
 import com.simbirsoft.practice.bookreviewsite.util.MediaFileUtils;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -61,8 +62,6 @@ public class UsersServiceImpl implements UsersService {
             }
         }
 
-//        usersRepository.editProfile(newName, newEmail, newAvatar);
-
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
         CustomUser user = userDetails.getUser();
@@ -72,14 +71,10 @@ public class UsersServiceImpl implements UsersService {
 
         if (!userDTO.getEmail().equals(newEmail)) {
             user.setUserStatus(UserStatus.NOT_CONFIRMED);
-
             user.setConfirmCode(UUID.randomUUID().toString());
-
-//            usersRepository.makeUserNotConfirmed(user.getConfirmCode(), user.getUserStatus());
         }
 
         usersRepository.save(modelMapper.map(user, User.class));
-
         AuthRefreshUtil.refreshAuthentication(authentication);
 
         return modelMapper.map(user, UserDTO.class);

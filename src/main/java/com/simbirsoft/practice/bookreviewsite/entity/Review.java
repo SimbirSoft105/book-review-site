@@ -22,7 +22,9 @@ public class Review {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(length = 1000)
     private String text;
+
     private Integer mark;
     private Integer rate;
 

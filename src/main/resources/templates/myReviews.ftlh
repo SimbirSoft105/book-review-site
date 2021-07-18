@@ -82,11 +82,8 @@
         let reviewsBlock = document.querySelector('.comment__items')
 
         window.onscroll = async function () {
-            // console.log('currentPage: ' + currentPage)
-            // console.log('load more: ' + loadMore)
-            if (loadMore &&
-
-                window.scrollY + 1 >= document.documentElement.scrollHeight - document.documentElement.clientHeight) {
+            if (loadMore && window.scrollY + 1 >=
+                document.documentElement.scrollHeight - document.documentElement.clientHeight) {
 
                 let response = await fetch('/reviews/my/ajax?page=' + (currentPage + 1))
                 if (response.ok) {

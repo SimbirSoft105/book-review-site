@@ -29,17 +29,12 @@ public class MediaFileUtils {
 
         try {
             File fileToUpload = new File(fileName);
-
             FileUtils.writeByteArrayToFile(fileToUpload, bytes);
-
             Map response = cloudinary.uploader().upload(fileToUpload, ObjectUtils.emptyMap());
-
             String imgHref = (String) response.get("url");
-
             fileToUpload.delete();
 
             return imgHref;
-
         } catch (IOException e) {
             throw new IllegalStateException(e);
         }
