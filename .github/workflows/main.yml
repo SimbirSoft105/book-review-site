@@ -75,6 +75,9 @@ jobs:
 
       - name: Set up Docker buildx
         uses: docker/setup-buildx-action@v1
+        
+      - name: Run docker containers
+        run: docker-compose -f docker-compose.test.db.yml up
 
       - name: Maven tests
         run: mvn test
