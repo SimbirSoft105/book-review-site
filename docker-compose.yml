@@ -1,14 +1,42 @@
 version: '3'
 
 services:
+
+  app:
+    container_name: app
+    image: book-review-site
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    depends_on:
+      - postgres
+    ports:
+      - 8080:8080
+    environment:
+      DB_URL: jdbc:postgresql://postgres:5432/book-review
+      DB_USERNAME: postgres
+      DB_PASSWORD: book
+      SERVER_URL: localhost
+      SERVER_HOST: localhost:8080
+      PORT: 8080
+      CLOUD_API_KEY: test
+      CLOUD_API_SECRET: test
+      CLOUD_NAME: test
+      CLOUD_SECURE: 'true'
+      GMAIL_ADDRESS: test
+      GMAIL_PASSWORD: test
+      GOOGLE_CLIENT_ID: test
+      GOOGLE_CLIENT_SECRET: test
+    restart: always
+
   postgres:
     image: postgres
     ports:
       - 5432:5432
     environment:
-      POSTGRES_DB: trello
-      POSTGRES_USER: trello
-      POSTGRES_PASSWORD: trello
+      POSTGRES_DB: book-review
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: book
     volumes:
       - db:/var/lib/postgresql/data
 

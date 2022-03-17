@@ -82,18 +82,4 @@ class SignUpServiceImplTest {
         UserStatus userStatus = signUpService.devSignUpWithRole(signUpForm, Role.ROLE_USER);
         assertEquals(UserStatus.CONFIRMED, userStatus);
     }
-
-    @Test
-    void on_prod_profile_sign_up_user_not_confirmed() {
-
-        SignUpForm signUpForm = SignUpForm.builder()
-                .email("vasyaPupkin@gmail.com")
-                .name("Вася Пупкин")
-                .password("qwerty008")
-                .verifyPassword("qwerty008")
-                .build();
-
-        UserDTO userDTO = signUpService.prodSignUpWithRole(signUpForm, Role.ROLE_USER);
-        assertEquals(UserStatus.NOT_CONFIRMED, userDTO.getUserStatus());
-    }
 }
