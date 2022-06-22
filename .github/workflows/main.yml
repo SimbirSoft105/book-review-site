@@ -105,4 +105,4 @@ jobs:
           # Your Heroku App Name
           app_name: "mybook-anvar"
           # Dokerfile path
-          dockerfile_path: Dockerfile
+          dockerfile_path: ./
