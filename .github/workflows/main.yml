@@ -69,6 +69,8 @@ jobs:
         with:
           java-version: '8'
           distribution: 'adopt'
+
+      - name: Maven tests
         run: mvn clean package -DskipTests
 
       - name: SetUp QEMU
@@ -101,6 +103,8 @@ jobs:
         with:
           java-version: '8'
           distribution: 'adopt'
+
+      - name: Maven tests
         run: mvn clean package -DskipTests
 
       - name: Heroku Docker Container Deploy
