@@ -69,6 +69,7 @@ jobs:
         with:
           java-version: '8'
           distribution: 'adopt'
+        run: mvn clean package -DskipTests
 
       - name: SetUp QEMU
         uses: docker/setup-qemu-action@v1
@@ -94,6 +95,13 @@ jobs:
       - tests
     steps:
       - uses: actions/checkout@v2
+
+      - name: Set up Java JDK 8
+        uses: actions/setup-java@v2
+        with:
+          java-version: '8'
+          distribution: 'adopt'
+        run: mvn clean package -DskipTests
 
       - name: Heroku Docker Container Deploy
         uses: lucassarcanjo/heroku-deploy@2.1.17
